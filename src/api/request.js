@@ -27,7 +27,7 @@ request.interceptors.request.use(
     nprogress.start();
     config.headers["Content-Type"] = "application/json;charset=utf-8";
     let token = getToken()
-      ? JSON.parse(getToken())
+      ? getToken()
       : null;
     if (token) {
       config.headers["token"] = token; // 设置请求头

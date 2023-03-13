@@ -50,7 +50,7 @@
         >
       </el-form>
     </el-col>
-    <el-dialog title="注册" :visible.sync="dialogVisible" width="30%">
+    <el-dialog title="注册" :visible.sync="dialogVisible" width="25%">
       <div>
         <el-form
           ref="formRef"
@@ -58,13 +58,6 @@
           :model="form"
           style="width: 250px"
         >
-          <el-form-item prop="belong"
-            ><el-input
-              v-model="form.belong"
-              placeholder="请输入员工所属的组长的邮箱"
-            >
-            </el-input
-          ></el-form-item>
           <el-form-item prop="email"
             ><el-input v-model="form.email" placeholder="请输入员工邮箱">
             </el-input
@@ -105,20 +98,12 @@ export default {
       dialogVisible: false,
 
       form: {
-        belong: "",
         email: "",
         name: "",
         position: "",
         shopID: "",
       },
       rules: {
-        belong: [
-          {
-            required: true,
-            message: "员工组长邮箱不能为空",
-            trigger: "blur",
-          },
-        ],
         email: [
           {
             required: true,
@@ -149,7 +134,7 @@ export default {
         ],
       },
       formLogin: {
-        emailLogin: "",
+        emailLogin: "2359643054@qq.com",
       },
       loginRules: {
         emailLogin: [
@@ -170,10 +155,15 @@ export default {
           return;
         }
         this.loading = true;
-        const res = await reqLogin("2359643054@qq.com");
-        console.log(res);
-        Toast("登录成功");
-        setToken(res.data);
+        const res = await reqLogin(this.formLogin.emailLogin);
+        if (res.state == 200) {
+          Toast("登录成功");
+          setToken(res.data);
+          this.$router.push("/");
+          this.$store.commit("setToken", res.data);
+        } else  {
+          Toast(res.message, "error");
+        }
         this.loading = false;
       });
     },
@@ -185,10 +175,13 @@ export default {
         }
         this.loading = true;
         const res = await reqRegister(this.form);
-        console.log(res);
-        Toast("注册成功");
-        resetObj(this.form);
-        this.dialogVisible = false;
+        if (res.state == 200) {
+          Toast("注册成功");
+          resetObj(this.form);
+          this.dialogVisible = false;
+        } else if (res.state == 500) {
+          Toast(res.message, "error");
+        }
         this.loading = false;
       });
     },
