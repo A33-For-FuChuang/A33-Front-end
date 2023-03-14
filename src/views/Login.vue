@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { Message, Toast, resetObj } from "../composables/utils";
+import {  Toast, resetObj } from "../composables/utils";
 import { reqRegister, reqLogin } from "../api/employee";
 import { setToken } from "../composables/auth";
 export default {
@@ -134,7 +134,7 @@ export default {
         ],
       },
       formLogin: {
-        emailLogin: "2359643054@qq.com",
+        emailLogin: "1157316996@qq.com",
       },
       loginRules: {
         emailLogin: [
@@ -157,10 +157,11 @@ export default {
         this.loading = true;
         const res = await reqLogin(this.formLogin.emailLogin);
         if (res.state == 200) {
+          this.$store.commit("setToken", res.data.token);
+          this.$store.dispatch("getInfo",res.data.id);
           Toast("登录成功");
-          setToken(res.data);
           this.$router.push("/");
-          this.$store.commit("setToken", res.data);
+          
         } else  {
           Toast(res.message, "error");
         }

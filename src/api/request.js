@@ -2,6 +2,7 @@
 import axios from "axios";
 import ElementUI from "element-ui";
 import { getToken, setToken } from "../composables/auth";
+import store from "../store";
 
 // 引入进度条
 import nprogress from "nprogress";
@@ -26,8 +27,8 @@ request.interceptors.request.use(
   (config) => {
     nprogress.start();
     config.headers["Content-Type"] = "application/json;charset=utf-8";
-    let token = getToken()
-      ? getToken()
+    let token = store.state.user.userInfo?.token
+      ? store.state.user.userInfo?.token
       : null;
     if (token) {
       config.headers["token"] = token; // 设置请求头

@@ -2,34 +2,33 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import { Toast } from "../composables/utils";
 import { getToken } from "../composables/auth";
-import store from "../store";
+import store from "../store/index";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    component: () => import("@/layouts/admin.vue"),
-    redirect:'/home/user'
+    redirect: "/home/user",
   },
   {
     path: "/login",
     component: () => import("@/views/Login.vue"),
   },
   {
-    path:"/home",
-    name:"home",
-    component:()=>import("@/layouts/admin.vue"),
-    children:[
+    path: "/home",
+    name: "home",
+    component: () => import("@/layouts/admin.vue"),
+    children: [
       {
-        path:"user",
-        component:()=>import("../views/Home/User.vue")
+        path: "user",
+        component: () => import("@/views/Home/user.vue"),
       },
       {
-        path:"root",
-        component:()=>import("@/views/Home/Root.vue")
-      }
-    ]
+        path: "shop",
+        component: () => import("@/views/Home/shop.vue"),
+      },
+    ],
   },
   {
     path: "/404",
@@ -45,12 +44,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = getToken();
+  const token = store.state.user.userInfo.token;
+  
   if (to.path != "/login" && !token) {
     Toast("请先登录", "error");
     return next({ path: "/login" });
   }
-  if (to.path == "/login" && token) {
+  if (to.path == "/login" && getToken()) {
     Toast("请先退出登录", "warning");
     return next({ path: from.path ? from.path : "/" });
   }

@@ -4,7 +4,7 @@
       ><span  class="el-icon-platform-eleme" style="margin-right: 10px"></span>
       智能排班系统</span
     >
-    <el-button type="primary" @click="removeToken">退出登录</el-button>
+    <el-button type="primary" @click="layout">退出登录</el-button>
   </div>
 </template>
 
@@ -17,8 +17,7 @@ export default {
     return {};
   },
   methods: {
-    removeToken() {
-      removeToken()
+    layout() {
       this.$store.commit('layout', {})
       Toast("退出成功")
       this.$router.push("/login")

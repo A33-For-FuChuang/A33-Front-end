@@ -1,9 +1,9 @@
 <template>
   <div class="f-menu" :style="{ width: $store.state.user.asideWidth }">
     <el-menu
-      :default-active="1"
       unique-opened
-      default-active="2"
+      default-active="/home/user"
+      :default-openeds=[1]
       class="border-0"
       :collapse-transition="false"
       router
@@ -14,8 +14,8 @@
           <span slot="title">导航一</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/home/user">选项1</el-menu-item>
-          <el-menu-item index="/home/root">选项2</el-menu-item>
+          <el-menu-item index="/home/user">员工页面</el-menu-item>
+          <el-menu-item index="/home/shop">店铺页面</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
