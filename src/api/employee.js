@@ -14,3 +14,6 @@ export const reqRegister = (data) =>
     },
     method: "post",
   });
+
+export const reqUserInfo = () =>
+  request({ url: "/A33/employee/own", method: "get" });

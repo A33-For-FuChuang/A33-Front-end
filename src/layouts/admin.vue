@@ -1,14 +1,14 @@
 <template>
-  <el-container>
+  <el-container class="bc">
     <el-header>
       <FHeader></FHeader>
     </el-header>
     <el-container>
-      <el-aside >
+      <el-aside width="250px">
         <FMenu></FMenu>
       </el-aside>
-      <el-main>
-        <router-view >
+      <el-main >
+        <router-view style="padding:20px 50px" class="elmbc">
           <transition name="fade">
             <keep-alive :max="10">
             </keep-alive>
@@ -26,6 +26,13 @@ import FTagList from "@/layouts/components/FTagList.vue";
 </script>
 
 <style>
+.bc {
+  background-color: rgb(243, 243, 243);
+  height: 100vh;
+}
+.elmbc {
+  background-color: rgb(253, 253, 253);
+}
 .el-aside {
   transition: all 0.2s;
 }

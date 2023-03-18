@@ -158,7 +158,7 @@ export default {
         const res = await reqLogin(this.formLogin.emailLogin);
         if (res.state == 200) {
           this.$store.commit("setToken", res.data.token);
-          this.$store.dispatch("getInfo",res.data.id);
+          this.$store.dispatch("getInfo");
           Toast("登录成功");
           this.$router.push("/");
           

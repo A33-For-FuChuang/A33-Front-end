@@ -55,7 +55,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const token = getToken();
-  const userId=localStorage.getItem("userId")
   if (to.path != "/login" && !token) {
     Toast("请先登录", "error");
     return next({ path: "/login" });
@@ -65,7 +64,7 @@ router.beforeEach((to, from, next) => {
     return next({ path: from.path ? from.path : "/" });
   }
   if(token) {
-    store.dispatch("getInfo",userId)
+    store.dispatch("getInfo")
   }
   next();
 });
