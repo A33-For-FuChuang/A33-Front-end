@@ -27,9 +27,7 @@ request.interceptors.request.use(
   (config) => {
     nprogress.start();
     config.headers["Content-Type"] = "application/json;charset=utf-8";
-    let token = store.state.user.userInfo?.token
-      ? store.state.user.userInfo?.token
-      : null;
+    const token = getToken()
     if (token) {
       config.headers["token"] = token; // 设置请求头
     }

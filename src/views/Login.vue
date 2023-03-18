@@ -134,7 +134,7 @@ export default {
         ],
       },
       formLogin: {
-        emailLogin: "1157316996@qq.com",
+        emailLogin: "2298908190@qq.com",
       },
       loginRules: {
         emailLogin: [

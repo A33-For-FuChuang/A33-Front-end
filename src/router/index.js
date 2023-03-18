@@ -31,6 +31,16 @@ const routes = [
     ],
   },
   {
+    path: "/schedule",
+    component: () => import("@/layouts/admin.vue"),
+    children: [
+      {
+        path: "information",
+        component: () => import("@/views/Schedule/information.vue"),
+      },
+    ],
+  },
+  {
     path: "/404",
     name: "404",
     component: () => import("../views/404.vue"),
@@ -44,15 +54,18 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = store.state.user.userInfo.token;
-  
+  const token = getToken();
+  const userId=localStorage.getItem("userId")
   if (to.path != "/login" && !token) {
     Toast("请先登录", "error");
     return next({ path: "/login" });
   }
-  if (to.path == "/login" && getToken()) {
+  if (to.path == "/login" && token) {
     Toast("请先退出登录", "warning");
     return next({ path: from.path ? from.path : "/" });
+  }
+  if(token) {
+    store.dispatch("getInfo",userId)
   }
   next();
 });

@@ -1,4 +1,5 @@
 import { reqUserInfo } from "../api/location";
+import {setToken} from "../composables/auth"
 
 const state = {
   userInfo: {},
@@ -8,10 +9,10 @@ const state = {
 const mutations = {
   setUser(state, res) {
     state.userInfo = res.data;
-    state.userInfo.token=res.token
   },
   setToken(state, token) {
     state.userInfo.token = token;
+    setToken(token)
   },
   layout(state, data) {
     state.userInfo = data;
@@ -23,7 +24,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       reqUserInfo(employeeID)
         .then((res) => {
-          console.log(res);
+          localStorage.setItem("userId",res.data.id)
           commit("setUser", res);
           resolve(res);
         })
