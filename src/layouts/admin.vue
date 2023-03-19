@@ -7,22 +7,28 @@
       <el-aside width="250px">
         <FMenu></FMenu>
       </el-aside>
-      <el-main >
-        <router-view style="padding:20px 50px" class="elmbc">
-          <transition name="fade">
+      <el-main>
+          <transition name="breadcrumb fade">
             <keep-alive :max="10">
-            </keep-alive>
+              <router-view style="padding: 20px 50px" class="elmbc">
+              </router-view
+            ></keep-alive>
           </transition>
-        </router-view>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
-<script setup>
+<script>
 import FHeader from "@/layouts/components/FHeader.vue";
 import FMenu from "@/layouts/components/FMenu.vue";
 import FTagList from "@/layouts/components/FTagList.vue";
+export default {
+  components: {
+    FHeader,
+    FMenu,
+  },
+};
 </script>
 
 <style>
@@ -32,9 +38,10 @@ import FTagList from "@/layouts/components/FTagList.vue";
 }
 .elmbc {
   background-color: rgb(253, 253, 253);
+  box-shadow: 0 4px 8px 6px rgba(7,17,27,.06);
 }
 .el-aside {
-  transition: all 0.2s;
+  transition: all 0.1s;
 }
 .fade-enter-from {
   opacity: 0;

@@ -50,7 +50,7 @@
         >
       </el-form>
     </el-col>
-    <el-dialog title="注册" :visible.sync="dialogVisible" width="25%">
+    <el-dialog :close-on-click-modal="false"	 title="注册" :visible.sync="dialogVisible" width="25%">
       <div>
         <el-form
           ref="formRef"
@@ -58,12 +58,23 @@
           :model="form"
           style="width: 250px"
         >
+          <el-form-item prop="belong"
+            ><el-input
+              v-model="form.belong"
+              placeholder="请输入员工所属组长邮箱"
+            >
+            </el-input
+          ></el-form-item>
           <el-form-item prop="email"
             ><el-input v-model="form.email" placeholder="请输入员工邮箱">
             </el-input
           ></el-form-item>
           <el-form-item prop="name"
             ><el-input v-model="form.name" placeholder="请输入员工姓名">
+            </el-input
+          ></el-form-item>
+          <el-form-item prop="phone"
+            ><el-input v-model="form.phone" placeholder="请输入员工手机号">
             </el-input
           ></el-form-item>
           <el-form-item prop="position"
@@ -88,7 +99,7 @@
 </template>
 
 <script>
-import {  Toast, resetObj } from "../composables/utils";
+import { Toast, resetObj } from "../composables/utils";
 import { reqRegister, reqLogin } from "../api/employee";
 import { setToken } from "../composables/auth";
 export default {
@@ -98,12 +109,21 @@ export default {
       dialogVisible: false,
 
       form: {
+        belong: "",
         email: "",
         name: "",
+        phone: "",
         position: "",
         shopID: "",
       },
       rules: {
+        belong: [
+          {
+            required: true,
+            message: "员工所属组长的邮箱不能为空",
+            trigger: "blur",
+          },
+        ],
         email: [
           {
             required: true,
@@ -115,6 +135,13 @@ export default {
           {
             required: true,
             message: "员工姓名不能为空",
+            trigger: "blur",
+          },
+        ],
+        phone: [
+          {
+            required: true,
+            message: "员工电话不能为空",
             trigger: "blur",
           },
         ],
@@ -161,8 +188,7 @@ export default {
           this.$store.dispatch("getInfo");
           Toast("登录成功");
           this.$router.push("/");
-          
-        } else  {
+        } else {
           Toast(res.message, "error");
         }
         this.loading = false;

@@ -2,7 +2,7 @@
 import axios from "axios";
 import ElementUI from "element-ui";
 import { getToken, setToken } from "../composables/auth";
-import store from "../store";
+import router from '@/router'
 
 // 引入进度条
 import nprogress from "nprogress";
@@ -53,12 +53,12 @@ request.interceptors.response.use(
       res = res ? JSON.parse(res) : res;
     }
     // 当权限验证不通过的时候给出提示
-    // if (res.state == "401") {
-    //   ElementUI.Message({
-    //     message: res.message,
-    //     type: "error",
-    //   });
-    // }
+    if (res.state == "401") {
+      ElementUI.Message({
+        message: res.message,
+        type: "error",
+      });
+    }
     return res;
   },
   (error) => {

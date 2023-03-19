@@ -4,6 +4,7 @@ import {setToken} from "../composables/auth"
 const state = {
   userInfo: {},
   asideWidth: "250px",
+  times:[]
 };
 
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
   setToken(state, token) {
     state.userInfo.token = token;
     setToken(token)
+  },
+  setTimes(state,data) {
+    state.times=data;
   },
   layout(state, data) {
     state.userInfo = data;
@@ -32,7 +36,11 @@ const actions = {
   },
 };
 
-const getters = {};
+const getters  = {
+  test(state) {
+    return state.times
+  }
+};
 
 export default {
   state,
