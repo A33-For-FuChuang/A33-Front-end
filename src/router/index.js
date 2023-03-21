@@ -22,11 +22,19 @@ const routes = [
     children: [
       {
         path: "user",
-        component: () => import("@/views/Home/user.vue"),
+        component: () => import("@/views/Home/User.vue"),
       },
       {
         path: "shop",
         component: () => import("@/views/Home/shop.vue"),
+      },
+      {
+        path: "/employee",
+        component: () => import("@/views/EmployeeInfo/index.vue"),
+      },
+      {
+        path: "/allemployee",
+        component: () => import("@/views/EmployeeInfo/allemployeeinfo.vue"),
       },
     ],
   },

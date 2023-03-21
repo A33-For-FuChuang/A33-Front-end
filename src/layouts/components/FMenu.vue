@@ -14,7 +14,13 @@
           <span slot="title">导航一</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/home/user">员工页面</el-menu-item>
+           <el-submenu index="1-4">
+            <template slot="title">员工页面</template>
+            <el-menu-item index="1-4-1" @click="employee()"
+              >个人信息</el-menu-item
+            >
+            <el-menu-item index="1-4-1" @click="allemployee()">全体成员信息</el-menu-item>
+          </el-submenu>
           <el-menu-item index="/home/shop">店铺页面</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
@@ -32,12 +38,24 @@
 </template>
 
 <script>
+import { employeeinfo } from "../../api/employeeinfo";
+
 export default {
   data() {
     return {};
   },
-  methods: {},
-};
+  methods: {
+        async employee() {
+      const res = await employeeinfo();
+      console.log(res)
+      this.$router.push("/employee");
+  },
+  allemployee()
+  {
+    this.$router.push("/allemployee");
+  }
+}
+}
 </script>
 
 <style scoped>
