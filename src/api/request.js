@@ -1,7 +1,7 @@
 // 对于axios进行二次封装
 import axios from "axios";
 import ElementUI from "element-ui";
-import { getToken, setToken } from "../composables/auth";
+import { getToken, removeToken, setToken } from "../composables/auth";
 import router from '@/router'
 
 // 引入进度条
@@ -58,6 +58,7 @@ request.interceptors.response.use(
         message: res.message,
         type: "error",
       });
+      removeToken();
     }
     return res;
   },

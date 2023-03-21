@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: rgba(243, 244, 246, 1);
+}
+
 ul,
 ol {
   list-style: none;
@@ -28,7 +32,7 @@ a {
 }
 
 /* 滚动条 */
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
@@ -55,7 +59,7 @@ a {
 
 ::-webkit-scrollbar-corner {
   background-color: transparent;
-} */
+}
 
 /* 页面跳转 */
 .fade-enter-active, .fade-leave-avtive {
