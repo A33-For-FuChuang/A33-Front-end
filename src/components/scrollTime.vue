@@ -91,7 +91,7 @@ export default {
 
 <style scoped lang="less">
 .main {
-  width: 850px;
+  width: 800px;
   position: relative;
   padding: 8px 0;
 

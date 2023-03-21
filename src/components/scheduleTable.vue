@@ -12,8 +12,9 @@
       <div class="head-style">
         <dl class="table-tr" v-for="(item, index) in weekWork" :key="index">
           <dd v-for="dd in item" :key="dd.locationID">
-            <span>{{ dd[0]?.name }}</span>
-            <div>{{ dd[0]?.position }}</div>
+            <!-- <span>{{ dd[0]?.name }}</span>
+            <div>{{ dd[0]?.position }}</div> -->
+            {{dd}}
           </dd>
         </dl>
       </div>
@@ -22,7 +23,7 @@
 </template>
 
 <script>
-import { getWeek,transformTime } from "../composables/utils";
+import { getWeek,transformTime,formatDate } from "../composables/utils";
 export default {
   data() {
     return {
@@ -60,6 +61,7 @@ export default {
         display: table-cell;
         text-align: center;
         height: 50px;
+        width: 120px;
         vertical-align: middle;
         // border-bottom: 1px solid #ddd;
         // border-right: 1px solid #ddd;

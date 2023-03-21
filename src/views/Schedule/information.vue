@@ -28,17 +28,7 @@
         </div>
       </div>
       <div class="time">
-        <div>
-          <el-select size="small" v-model="value" placeholder="按岗位分组">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
+        <conditionalSearch></conditionalSearch>
         <div style="margin-left: auto">
           <el-button type="danger" size="medium ">删除</el-button>
           <el-button type="warning" size="medium ">编辑</el-button>
@@ -52,13 +42,19 @@
 import { reqThreeMonthes } from "@/api/location";
 import scrollTime from "@/components/scrollTime.vue";
 import scheduleTable from "@/components/scheduleTable.vue";
+import conditionalSearch from '@/components/conditionalSearch'
 export default {
   components: {
     scrollTime,
     scheduleTable,
+    conditionalSearch
   },
   data() {
     return {
+      date: new Date(),
+      value: "",
+      isWeek: true,
+      times: [],
       options: [
         {
           value: "选项1",
@@ -81,10 +77,6 @@ export default {
           label: "北京烤鸭",
         },
       ],
-      date: new Date(),
-      value: "",
-      isWeek: true,
-      times: [],
     };
   },
   methods: {

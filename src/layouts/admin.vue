@@ -32,10 +32,6 @@ export default {
 </script>
 
 <style>
-.bc {
-  background-color: rgb(243, 243, 243);
-  height: 100vh;
-}
 .elmbc {
   background-color: rgb(253, 253, 253);
   box-shadow: 0 4px 8px 6px rgba(7,17,27,.06);

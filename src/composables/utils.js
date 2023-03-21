@@ -49,6 +49,15 @@ export function getWeek(today = new Date()) {
   return daysOfWeek;
 }
 
+// 将中国标准时间转化为yyyy-mm-dd形式
+export function formatDate(dateStr=new Date()) {
+  const date = new Date(dateStr);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+  const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+  return `${year}-${month}-${day}`;
+}
+
 // 将yyyy-mm-dd日期转换为中国标准时间
 export function transformTime(dateString) {
   // 将日期字符串转换为Date对象
