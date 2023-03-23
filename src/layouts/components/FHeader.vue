@@ -4,12 +4,15 @@
       ><span  class="el-icon-platform-eleme" style="margin-right: 10px"></span>
       智能排班系统</span
     >
+    <span class="icon-btn" @click="$store.commit('setAsideWidth')">
+      <i v-if="$store.state.common.asideWidth=='250px'" class="el-icon-s-fold"></i>
+      <i v-else class="el-icon-s-unfold"></i>
+    </span>
     <el-button type="primary" @click="layout">退出登录</el-button>
   </div>
 </template>
 
 <script>
-import {removeToken} from "@/composables/auth"
 import {Toast} from "@/composables/utils"
 
 export default {
@@ -47,5 +50,13 @@ export default {
   font-size: 20px;
   line-height: 28px;
   font-weight: 100;
+}
+.icon-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 64px;
+  cursor: pointer;
 }
 </style>

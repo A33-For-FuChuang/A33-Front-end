@@ -14,6 +14,9 @@ const mutations = {
   },
   setTabList(state,data) {
     state.tabList=data
+  },
+  setAsideWidth(state) {
+    state.asideWidth = state.asideWidth == "250px" ? "64px" : "250px";
   }
 };
 
