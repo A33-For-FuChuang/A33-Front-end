@@ -1,73 +1,58 @@
 <template>
   <div>
-    <el-descriptions
-      title="基本信息"
-      direction="vertical"
-      :column="4"
-      border
-    >
-      <el-descriptions-item label="姓名">{{
-        form.name
-      }}</el-descriptions-item>
+    <el-descriptions title="基本信息" direction="vertical" :column="4" border>
+      <el-descriptions-item label="姓名">{{ form.name }}</el-descriptions-item>
       <el-descriptions-item label="手机号">
-       {{form.phone}}
+        <el-input ref="inputVal" v-model="form.phone"></el-input>
       </el-descriptions-item>
-      <el-descriptions-item label="职位" :span="2">{{
+      <el-descriptions-item label="邮箱" :span="2">
+        <el-input v-model="form.email"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item label="职位">{{
         form.position
       }}</el-descriptions-item>
       <el-descriptions-item label="店名">{{
         form.shopName
       }}</el-descriptions-item>
-      <el-descriptions-item label="组名">{{
+      <el-descriptions-item label="组名" :span="2">{{
         form.groupName
       }}</el-descriptions-item>
 
-         <el-descriptions-item label="爱好一" :span="2">{{
-        form.hobbyType1
-      }}:{{form.hobbyValue1}}</el-descriptions-item>
-   <el-descriptions-item label="爱好二">{{
-        form.hobbyType2
-      }}:{{form.hobbyValue2}}</el-descriptions-item>
-        
-           <el-descriptions-item label="爱好三">{{
-        form.hobbyType3
-      }}:{{form.hobbyValue3}}</el-descriptions-item>
+      <el-descriptions-item label="爱好一"
+        >{{ form.hobbyType1 }} : {{ form.hobbyValue1 }}</el-descriptions-item
+      >
+      <el-descriptions-item label="爱好二"
+        >{{ form.hobbyType2 }} : {{ form.hobbyValue2 }}</el-descriptions-item
+      >
+
+      <el-descriptions-item label="爱好三"
+        >{{ form.hobbyType3 }} : {{ form.hobbyValue3 }}</el-descriptions-item
+      >
     </el-descriptions>
-    
-    <br>
-   
-    
-          <el-button type="primary" class="but" @click="save">保 存</el-button>
-          <!-- <el-button type="primary" @click="sign">修改</el-button> -->
-        <!-- 表格 -->
-        <div style="width: 100%;height: 100px;">
- 
-    </div>
- 
-   
-   
 
- 
-
-
+    <br />
+    <template class="temp">
+      <el-button type="primary" @click="save" class="but1">保 存</el-button>
+      <el-button type="primary" @click="change" class="but2">修改</el-button>
+    </template>
   </div>
 </template>
  
 <script>
-import { employeeinfo, employeechange } from "../../api/employeeinfo";
+import { employeeinfo, reqChangeinfo } from "../../api/employee";
 import { Toast, resetObj } from "../../composables/utils";
 
 export default {
   name: "Person",
   data() {
     return {
-      form: {
-       
-
+      form: {},
+      adddata: {
+        phone: "",
+        email: "",
       },
     };
   },
-  mounted() {},
 
   created() {
     this.personalinfo();
@@ -79,25 +64,30 @@ export default {
       console.log("个人信息页面");
       console.log(res.data);
     },
-
- 
+    change() {
+      //点击修改聚焦到输入框
+      this.$nextTick(function () {
+        this.$refs.inputVal.focus();
+      });
+    },
     async save() {
-      console.log(this.form)
-      const res = await employeechange(this.form);
+      this.adddata.phone = this.form.phone;
+      this.adddata.email = this.form.email;
+      console.log("这是员工信息更改界面");
+      console.log(this.adddata);
+      const res = await reqChangeinfo(this.adddata);
       console.log(res.data);
-      if (res.data.state == 200) {
+      if (res.state == 200) {
         Toast("信息保存成功");
       } else {
         console.log("hfdjdshfjgsh");
       }
     },
- 
- 
   },
 };
 </script>
  
-<style>
+<style scoped>
 .avatar-uploader {
   text-align: left;
   padding-bottom: 10px;
@@ -141,23 +131,23 @@ export default {
 .el-input__inner {
   width: 200px;
 }
-.but{
-  margin-left: 460px;
+
+.but1 {
   margin-top: 20px;
+  margin-left: 240px;
 }
-.but2{
+.but2 {
+  margin-top: 20px;
 
-  vertical-align:middle;
-    text-align:justify;
-    line-height: 3px;
+  margin-left: 50px;
 }
 
-.el-input__inner{
-  width: 150px;
-  margin-left: 0px;
-    
+.elmbc {
+  width: 800px;
+  height: 500px;
+  margin-left: 220px;
 }
-.input2{
-  float: right;
+.el-input {
+  width: 170px;
 }
 </style>

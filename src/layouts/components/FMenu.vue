@@ -8,23 +8,38 @@
       :collapse-transition="false"
       router
     >
-      <el-submenu index="1">
+        <el-submenu >
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span slot="title">导航一</span>
+          <span slot="title">员工信息</span>
         </template>
         <el-menu-item-group>
-           <el-submenu index="1-4">
-            <template slot="title">员工页面</template>
-            <el-menu-item index="1-4-1" @click="employee()"
-              >个人信息</el-menu-item
-            >
-            <el-menu-item index="1-4-1" @click="allemployee()">全体成员信息</el-menu-item>
-          </el-submenu>
-          <el-menu-item index="/home/shop">店铺页面</el-menu-item>
+          <el-menu-item  @click="employee()">个人信息</el-menu-item>
         </el-menu-item-group>
+         
+         <el-menu-item-group>
+          <el-menu-item  @click="allemployee()">成员信息</el-menu-item>
+        </el-menu-item-group>
+         
       </el-submenu>
-      <el-submenu index="2">
+      
+       <el-submenu index="2">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span slot="title">排版规则</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item  @click="rule()">员工偏好</el-menu-item>
+        </el-menu-item-group>
+          <el-menu-item-group>
+          <el-menu-item  @click="shoprule()">商铺规则</el-menu-item>
+        </el-menu-item-group>
+         <el-menu-item-group>
+          <el-menu-item  @click="businessrule()">营业规则</el-menu-item>
+        </el-menu-item-group>
+         
+      </el-submenu>
+      <el-submenu >
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">排班信息</span>
@@ -38,7 +53,7 @@
 </template>
 
 <script>
-import { employeeinfo } from "../../api/employeeinfo";
+import { employeeinfo } from "../../api/employee";
 
 export default {
   data() {
@@ -53,6 +68,17 @@ export default {
   allemployee()
   {
     this.$router.push("/allemployee");
+  },
+    rule()
+  {
+    this.$router.push("/rule");
+  },
+      shoprule()
+  {
+    this.$router.push("/shoprule");
+  },
+  businessrule(){
+     this.$router.push("/bussrule");
   }
 }
 }

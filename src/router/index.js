@@ -36,8 +36,21 @@ const routes = [
         path: "/allemployee",
         component: () => import("@/views/EmployeeInfo/allemployeeinfo.vue"),
       },
+      {
+        path: "/rule",
+        component: () => import("@/views/Rule/preference.vue"),
+      },
+      {
+        path: "/shoprule",
+        component: () => import("@/views/Rule/shoprule.vue"),
+      },
+      {
+        path: "/bussrule",
+        component: () => import("@/views/Rule/businessrule.vue"),
+      },
     ],
   },
+
   {
     path: "/schedule",
     component: () => import("@/layouts/admin.vue"),
