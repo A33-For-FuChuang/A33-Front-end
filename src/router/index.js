@@ -26,10 +26,8 @@ const routes = [
       },
       {
         path: "shop",
+        name:'商铺详情',
         component: () => import("@/views/Home/shop.vue"),
-        meta:{
-          title:"权限页"
-        }
       },
       {
         path: "/employee",
@@ -47,10 +45,8 @@ const routes = [
     children: [
       {
         path: "information",
+        name:'排班信息',
         component: () => import("@/views/Schedule/information.vue"),
-        meta:{
-          title:"排班信息"
-        }
       },
     ],
   },

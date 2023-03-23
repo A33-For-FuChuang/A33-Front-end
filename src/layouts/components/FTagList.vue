@@ -50,7 +50,7 @@ export default {
       router.afterEach((to, next, from) => {
         this.activeTab = to.path;
         this.addTab({
-          title: to.meta.title,
+          title: to.name,
           path: to.path,
         });
       });
