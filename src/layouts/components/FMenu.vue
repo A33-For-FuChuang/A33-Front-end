@@ -1,45 +1,44 @@
 <template>
-  <div class="f-menu" :style="{ width: $store.state.user.asideWidth }">
+  <div class="f-menu" :style="{ width: $store.state.common.asideWidth }">
     <el-menu
       unique-opened
       default-active="/home/user"
-      :default-openeds=[1]
+      
+      :collapse="isCollapse"
       class="border-0"
       :collapse-transition="false"
       router
     >
-        <el-submenu >
+      <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">员工信息</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item  @click="employee()">个人信息</el-menu-item>
+          <el-menu-item index="/employee">个人信息</el-menu-item>
         </el-menu-item-group>
-         
-         <el-menu-item-group>
-          <el-menu-item  @click="allemployee()">成员信息</el-menu-item>
+
+        <el-menu-item-group>
+          <el-menu-item index="/allemployee" >成员信息</el-menu-item>
         </el-menu-item-group>
-         
       </el-submenu>
-      
-       <el-submenu index="2">
+
+      <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">排版规则</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item  @click="rule()">员工偏好</el-menu-item>
+          <el-menu-item index="/rule">员工偏好</el-menu-item>
         </el-menu-item-group>
-          <el-menu-item-group>
-          <el-menu-item  @click="shoprule()">商铺规则</el-menu-item>
+        <el-menu-item-group>
+          <el-menu-item index="/shoprule" >商铺规则</el-menu-item>
         </el-menu-item-group>
-         <el-menu-item-group>
-          <el-menu-item  @click="businessrule()">营业规则</el-menu-item>
+        <el-menu-item-group>
+          <el-menu-item index="/bussrule">营业规则</el-menu-item>
         </el-menu-item-group>
-         
       </el-submenu>
-      <el-submenu >
+      <el-submenu index="3">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">排班信息</span>
@@ -59,29 +58,31 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    isCollapse() {
+      return !(this.$store.state.common.asideWidth == "250px");
+    },
+  },
   methods: {
-        async employee() {
+    async employee() {
       const res = await employeeinfo();
-      console.log(res)
+      console.log(res);
       this.$router.push("/employee");
+    },
+    allemployee() {
+      this.$router.push("/allemployee");
+    },
+    rule() {
+      this.$router.push("/rule");
+    },
+    shoprule() {
+      this.$router.push("/shoprule");
+    },
+    businessrule() {
+      this.$router.push("/bussrule");
+    },
   },
-  allemployee()
-  {
-    this.$router.push("/allemployee");
-  },
-    rule()
-  {
-    this.$router.push("/rule");
-  },
-      shoprule()
-  {
-    this.$router.push("/shoprule");
-  },
-  businessrule(){
-     this.$router.push("/bussrule");
-  }
-}
-}
+};
 </script>
 
 <style scoped>
