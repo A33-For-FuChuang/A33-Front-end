@@ -1,16 +1,9 @@
 <template>
   <div>
-    <el-descriptions
-      title="基本信息"
-      direction="vertical"
-      :column="4"
-      border
-    >
-      <el-descriptions-item label="姓名">{{
-        form.name
-      }}</el-descriptions-item>
+    <el-descriptions title="基本信息" direction="vertical" :column="4" border>
+      <el-descriptions-item label="姓名">{{ form.name }}</el-descriptions-item>
       <el-descriptions-item label="手机号">
-       {{form.phone}}
+        {{ form.phone }}
       </el-descriptions-item>
       <el-descriptions-item label="职位" :span="2">{{
         form.position
@@ -22,37 +15,27 @@
         form.groupName
       }}</el-descriptions-item>
 
-         <el-descriptions-item label="爱好一" :span="2">{{
-        form.hobbyType1
-      }}:{{form.hobbyValue1}}</el-descriptions-item>
-   <el-descriptions-item label="爱好二">{{
-        form.hobbyType2
-      }}:{{form.hobbyValue2}}</el-descriptions-item>
-        
-           <el-descriptions-item label="爱好三">{{
-        form.hobbyType3
-      }}:{{form.hobbyValue3}}</el-descriptions-item>
+      <el-descriptions-item label="爱好一" :span="2"
+        >{{ form.hobbyType1 }}:{{ form.hobbyValue1 }}</el-descriptions-item
+      >
+      <el-descriptions-item label="爱好二"
+        >{{ form.hobbyType2 }}:{{ form.hobbyValue2 }}</el-descriptions-item
+      >
+
+      <el-descriptions-item label="爱好三"
+        >{{ form.hobbyType3 }}:{{ form.hobbyValue3 }}</el-descriptions-item
+      >
     </el-descriptions>
-    
-    <br>
-   
-    
-          <el-button type="primary" class="but" @click="save">保 存</el-button>
-          <!-- <el-button type="primary" @click="sign">修改</el-button> -->
-        <!-- 表格 -->
-        <div style="width: 100%;height: 100px;">
- 
-    </div>
- 
-   
-   
 
- 
+    <br />
 
-
+    <el-button type="primary" class="but" @click="save">保 存</el-button>
+    <!-- <el-button type="primary" @click="sign">修改</el-button> -->
+    <!-- 表格 -->
+    <div style="width: 100%; height: 100px"></div>
   </div>
 </template>
- 
+
 <script>
 import { employeeinfo, employeechange } from "../../api/employeeinfo";
 import { Toast, resetObj } from "../../composables/utils";
@@ -61,10 +44,7 @@ export default {
   name: "Person",
   data() {
     return {
-      form: {
-       
-
-      },
+      form: {},
     };
   },
   mounted() {},
@@ -80,9 +60,8 @@ export default {
       console.log(res.data);
     },
 
- 
     async save() {
-      console.log(this.form)
+      console.log(this.form);
       const res = await employeechange(this.form);
       console.log(res.data);
       if (res.data.state == 200) {
@@ -91,13 +70,11 @@ export default {
         console.log("hfdjdshfjgsh");
       }
     },
- 
- 
   },
 };
 </script>
- 
-<style>
+
+<style scoped>
 .avatar-uploader {
   text-align: left;
   padding-bottom: 10px;
@@ -141,23 +118,21 @@ export default {
 .el-input__inner {
   width: 200px;
 }
-.but{
+.but {
   margin-left: 460px;
   margin-top: 20px;
 }
-.but2{
-
-  vertical-align:middle;
-    text-align:justify;
-    line-height: 3px;
+.but2 {
+  vertical-align: middle;
+  text-align: justify;
+  line-height: 3px;
 }
 
-.el-input__inner{
+.el-input__inner {
   width: 150px;
   margin-left: 0px;
-    
 }
-.input2{
+.input2 {
   float: right;
 }
 </style>

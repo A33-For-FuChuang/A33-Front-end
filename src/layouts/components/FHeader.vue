@@ -20,7 +20,6 @@ export default {
     layout() {
       this.$store.commit('layout', {})
       Toast("退出成功")
-      removeToken()
       this.$router.push("/login")
     }
   },

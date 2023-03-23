@@ -22,11 +22,14 @@ const routes = [
     children: [
       {
         path: "user",
-        component: () => import("@/views/Home/User.vue"),
+        component: () => import("@/views/Home/user.vue"),
       },
       {
         path: "shop",
         component: () => import("@/views/Home/shop.vue"),
+        meta:{
+          title:"权限页"
+        }
       },
       {
         path: "/employee",
@@ -45,6 +48,9 @@ const routes = [
       {
         path: "information",
         component: () => import("@/views/Schedule/information.vue"),
+        meta:{
+          title:"排班信息"
+        }
       },
     ],
   },
@@ -76,5 +82,6 @@ router.beforeEach((to, from, next) => {
   }
   next();
 });
+
 
 export default router;

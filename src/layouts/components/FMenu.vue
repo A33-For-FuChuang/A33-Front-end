@@ -1,5 +1,5 @@
 <template>
-  <div class="f-menu" :style="{ width: $store.state.user.asideWidth }">
+  <div class="f-menu" :style="{ width: $store.state.common.asideWidth }">
     <el-menu
       unique-opened
       default-active="/home/user"

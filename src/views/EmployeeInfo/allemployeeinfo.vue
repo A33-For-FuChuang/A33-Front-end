@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script>
+<script >
 import { allemployee } from "../../api/employeeinfo";
 
 export default {
