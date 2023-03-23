@@ -7,7 +7,7 @@
       <el-table-column prop="phone" label="电话" :visible="isPositionVisible">
         <template slot-scope="{ row }">
           <!-- 这里逻辑有问题 -->
-                    <!-- {{ isPositionVisibleForUser(row) ? row.phone : "无权限查看" }} -->
+          <!-- {{ isPositionVisibleForUser(row) ? row.phone : "无权限查看" }} -->
 
           {{ true ? row.phone : "无权限查看" }}
         </template>
@@ -21,6 +21,7 @@
   </div>
 </template>
 
+<<<<<<< HEAD
 <script>
 import { employeeinfo, employeechange, allemployee } from "../../api/employee";
 

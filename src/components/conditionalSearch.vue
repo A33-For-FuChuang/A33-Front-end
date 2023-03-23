@@ -31,6 +31,8 @@
       >
       </el-option>
     </el-select>
+    <el-button style="margin-left:20px" type="primary" size="small">查看个人</el-button>
+    <el-button type="success" size="small">查看全部</el-button>
   </div>
 </template>
 
@@ -86,6 +88,7 @@ export default {
   mounted() {
     this.getAllGroup();
     this.getAllPosion();
+    console.log(this.$route);
   },
 };
 </script>

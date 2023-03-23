@@ -1,9 +1,8 @@
 import { reqUserInfo } from "../api/employee";
-import {setToken} from "../composables/auth"
+import {setToken,removeToken,removeDateKey} from "../composables/auth"
 
 const state = {
   userInfo: {},
-  asideWidth: "250px",
   times:[]
 };
 
@@ -20,6 +19,8 @@ const mutations = {
   },
   layout(state, data) {
     state.userInfo = data;
+    removeDateKey()
+    removeToken()
   },
 };
 

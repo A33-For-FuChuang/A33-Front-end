@@ -14,7 +14,7 @@
           <dd v-for="dd in item" :key="dd.locationID">
             <!-- <span>{{ dd[0]?.name }}</span>
             <div>{{ dd[0]?.position }}</div> -->
-            {{dd}}
+            {{ dd }}
           </dd>
         </dl>
       </div>
@@ -23,7 +23,8 @@
 </template>
 
 <script>
-import { getWeek,transformTime,formatDate } from "../composables/utils";
+import { getWeek, transformTime, formatDate } from "../composables/utils";
+import { getDateKey } from "@/composables/auth";
 export default {
   data() {
     return {
@@ -35,10 +36,11 @@ export default {
   },
   methods: {},
   mounted() {
-    transformTime()
-    this.$bus.$on("weekWork", (data, date) => {
+    transformTime();
+    this.$bus.$on("weekWork", (data) => {
       this.weekWork = data;
-      const formattedDate = transformTime(date)
+      const date = getDateKey();
+      const formattedDate = transformTime(date);
       this.dates = getWeek(formattedDate);
     });
   },

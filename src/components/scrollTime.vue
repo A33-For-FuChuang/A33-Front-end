@@ -26,6 +26,7 @@
 
 <script>
 import {reqGetWeekWork} from "@/api/location"
+import {setDateKey} from "@/composables/auth"
 export default {
   props: ["times"],
   data() {
@@ -70,9 +71,10 @@ export default {
       this.getData(item.week)
     },
     async getData(date=new Date()) {
+      setDateKey(date)
       const res=await reqGetWeekWork(date)
       if(res.state==200) {
-        this.$bus.$emit("weekWork",res.data,date)
+        this.$bus.$emit("weekWork",res.data)
       }
     },
   },

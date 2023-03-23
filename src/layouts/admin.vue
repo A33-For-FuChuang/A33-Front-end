@@ -4,10 +4,11 @@
       <FHeader></FHeader>
     </el-header>
     <el-container>
-      <el-aside width="250px">
+      <el-aside :width="$store.state.common.asideWidth">
         <FMenu></FMenu>
       </el-aside>
       <el-main>
+        <FTagList></FTagList>
           <transition name="breadcrumb fade">
             <keep-alive :max="10">
               <router-view style="padding: 20px 50px" class="elmbc">
@@ -27,7 +28,11 @@ export default {
   components: {
     FHeader,
     FMenu,
+    FTagList
   },
+  mounted() {
+    
+  }
 };
 </script>
 

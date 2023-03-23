@@ -4,6 +4,8 @@
       <el-descriptions-item label="姓名">{{ form.name }}</el-descriptions-item>
       <el-descriptions-item label="手机号">
         <el-input ref="inputVal" v-model="form.phone"></el-input>
+
+        {{ form.phone }}
       </el-descriptions-item>
       <el-descriptions-item label="邮箱" :span="2">
         <el-input v-model="form.email"></el-input>
@@ -31,13 +33,23 @@
     </el-descriptions>
 
     <br />
-    <template class="temp">
-      <el-button type="primary" @click="save" class="but1">保 存</el-button>
-      <el-button type="primary" @click="change" class="but2">修改</el-button>
-    </template>
+
+    <el-button type="primary" @click="save" class="but1">保 存</el-button>
+    <el-button type="primary" @click="change" class="but2">修改</el-button>
+
+    <el-descriptions-item label="爱好一" :span="2"
+      >{{ form.hobbyType1 }}:{{ form.hobbyValue1 }}</el-descriptions-item
+    >
+    <el-descriptions-item label="爱好二"
+      >{{ form.hobbyType2 }}:{{ form.hobbyValue2 }}</el-descriptions-item
+    >
+
+    <el-descriptions-item label="爱好三"
+      >{{ form.hobbyType3 }}:{{ form.hobbyValue3 }}</el-descriptions-item
+    >
   </div>
 </template>
- 
+
 <script>
 import { employeeinfo, reqChangeinfo } from "../../api/employee";
 import { Toast, resetObj } from "../../composables/utils";
@@ -47,6 +59,7 @@ export default {
   data() {
     return {
       form: {},
+
       adddata: {
         phone: "",
         email: "",
@@ -64,6 +77,7 @@ export default {
       console.log("个人信息页面");
       console.log(res.data);
     },
+
     change() {
       //点击修改聚焦到输入框
       this.$nextTick(function () {
@@ -76,6 +90,10 @@ export default {
       console.log("这是员工信息更改界面");
       console.log(this.adddata);
       const res = await reqChangeinfo(this.adddata);
+    },
+    async save() {
+      console.log(this.form);
+      const res = await employeechange(this.form);
       console.log(res.data);
       if (res.state == 200) {
         Toast("信息保存成功");
@@ -86,7 +104,10 @@ export default {
   },
 };
 </script>
+
  
+
+
 <style scoped>
 .avatar-uploader {
   text-align: left;
@@ -133,8 +154,8 @@ export default {
 }
 
 .but1 {
-  margin-top: 20px;
-  margin-left: 240px;
+  margin-left: 260px;
+ 
 }
 .but2 {
   margin-top: 20px;
@@ -149,5 +170,17 @@ export default {
 }
 .el-input {
   width: 170px;
+
+  vertical-align: middle;
+  text-align: justify;
+  line-height: 3px;
+}
+
+.el-input__inner {
+  width: 150px;
+  margin-left: 0px;
+}
+.input2 {
+  float: right;
 }
 </style>

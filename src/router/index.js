@@ -26,6 +26,7 @@ const routes = [
       },
       {
         path: "shop",
+        name:'商铺详情',
         component: () => import("@/views/Home/shop.vue"),
       },
       {
@@ -57,6 +58,7 @@ const routes = [
     children: [
       {
         path: "information",
+        name:'排班信息',
         component: () => import("@/views/Schedule/information.vue"),
       },
     ],
@@ -89,5 +91,6 @@ router.beforeEach((to, from, next) => {
   }
   next();
 });
+
 
 export default router;
