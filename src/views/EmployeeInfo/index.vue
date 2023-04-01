@@ -4,8 +4,6 @@
       <el-descriptions-item label="姓名">{{ form.name }}</el-descriptions-item>
       <el-descriptions-item label="手机号">
         <el-input ref="inputVal" v-model="form.phone"></el-input>
-
-        {{ form.phone }}
       </el-descriptions-item>
       <el-descriptions-item label="邮箱" :span="2">
         <el-input v-model="form.email"></el-input>
@@ -20,15 +18,15 @@
         form.groupName
       }}</el-descriptions-item>
 
-      <el-descriptions-item label="爱好一"
-        >{{ form.hobbyType1 }} : {{ form.hobbyValue1 }}</el-descriptions-item
+      <el-descriptions-item label="工作日偏好"
+        ></el-descriptions-item
       >
-      <el-descriptions-item label="爱好二"
-        >{{ form.hobbyType2 }} : {{ form.hobbyValue2 }}</el-descriptions-item
+      <el-descriptions-item label="工作时间偏好"
+        > </el-descriptions-item
       >
 
-      <el-descriptions-item label="爱好三"
-        >{{ form.hobbyType3 }} : {{ form.hobbyValue3 }}</el-descriptions-item
+      <el-descriptions-item label="班次时间偏好"
+        >{{form.employeeWorkTimeDTO}}</el-descriptions-item
       >
     </el-descriptions>
 
@@ -37,16 +35,7 @@
     <el-button type="primary" @click="save" class="but1">保 存</el-button>
     <el-button type="primary" @click="change" class="but2">修改</el-button>
 
-    <el-descriptions-item label="爱好一" :span="2"
-      >{{ form.hobbyType1 }}:{{ form.hobbyValue1 }}</el-descriptions-item
-    >
-    <el-descriptions-item label="爱好二"
-      >{{ form.hobbyType2 }}:{{ form.hobbyValue2 }}</el-descriptions-item
-    >
-
-    <el-descriptions-item label="爱好三"
-      >{{ form.hobbyType3 }}:{{ form.hobbyValue3 }}</el-descriptions-item
-    >
+    
   </div>
 </template>
 
@@ -75,7 +64,7 @@ export default {
       const res = await employeeinfo();
       this.form = res.data;
       console.log("个人信息页面");
-      console.log(res.data);
+      console.log(res);
     },
 
     change() {
@@ -88,19 +77,13 @@ export default {
       this.adddata.phone = this.form.phone;
       this.adddata.email = this.form.email;
       console.log("这是员工信息更改界面");
-      console.log(this.adddata);
       const res = await reqChangeinfo(this.adddata);
-    },
-    async save() {
-      console.log(this.form);
-      const res = await employeechange(this.form);
-      console.log(res.data);
+      console.log(res);
       if (res.state == 200) {
-        Toast("信息保存成功");
-      } else {
-        console.log("hfdjdshfjgsh");
+        Toast("保存成功！");
       }
     },
+  
   },
 };
 </script>
@@ -155,7 +138,6 @@ export default {
 
 .but1 {
   margin-left: 260px;
- 
 }
 .but2 {
   margin-top: 20px;

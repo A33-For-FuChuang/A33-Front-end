@@ -1,15 +1,30 @@
 import request from "./request";
 
+//修改工作日偏好接口
 export const reqRole = (data) =>
     request({
-        url: `/A33/employeeRole/add`,
+        url: `/A33/employeeRole/updateWorkDay`,
         params: {
-            employeeID: data.id,
-            hobbyType1: data.hobbyType1,
-            hobbyType2: data.hobbyType2,
-            hobbyType3: data.hobbyType3,
-            hobbyValue1: data.hobbyValue1,
-            hobbyValue2: data.hobbyValue2,
-            hobbyValue3: data.hobbyValue3,
+            workDay1: data.workDay1,
+            workDay2: data.workDay2,
         }, method: "post"
     });
+
+    //修改工作时间偏好接口
+export const reqWorkTime = (data) =>
+request({
+    url: `/A33/employeeRole/updateWorkTime`,
+    params: {
+        workTime1: data.workTime1,
+        workTIme2: data.workTIme2,
+    }, method: "post"
+});
+    //修改班次时长偏好接口
+export const reqTime = (data) =>
+request({
+    url: `/A33/employeeRole/updateLastTime`,
+    params: {
+        
+        lastTime: data,
+    }, method: "post"
+});
