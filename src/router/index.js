@@ -22,64 +22,42 @@ const routes = [
     children: [
       {
         path: "user",
-        component: () => import("@/views/Home/User.vue"),
+        component: () => import("@/views/Home/user.vue"),
       },
       {
         path: "shop",
-        name: '商铺详情',
+        name: "商铺详情",
         component: () => import("@/views/Home/shop.vue"),
       },
       {
-        path: "/employee",
-        name:'个人信息',
-        component: () => import("@/views/EmployeeInfo/index.vue"),
-      },
-      {
-        path: "/allemployee",
-        name:'成员信息',
-        component: () => import("@/views/EmployeeInfo/allemployeeinfo.vue"),
-      },
-      {
-        path: "/rule",
-        component: () => import("@/views/Rule/preference.vue"),
-      },
-      {
-        path: "/shoprule",
-        component: () => import("@/views/Rule/shoprule.vue"),
-      },
-      {
-        path: "/bussrule",
-        component: () => import("@/views/Rule/businessrule.vue"),
-      },
-    ],
-  },
-  {
-    path: "/test",
-    component: () => import("@/layouts/admin.vue"),
-    children: [
-      {
         path: "employee",
-        name:"个人信息",
+        name: "个人信息",
         component: () => import("@/views/EmployeeInfo/index.vue"),
       },
       {
         path: "allemployee",
-        name:"成员信息",
+        name: "成员信息",
         component: () => import("@/views/EmployeeInfo/allemployeeinfo.vue"),
       },
+    ],
+  },
+  {
+    path: "/rules",
+    component: () => import("@/layouts/admin.vue"),
+    children: [
       {
         path: "rule",
-        name:"个人偏好",
+        name: "个人偏好",
         component: () => import("@/views/Rule/preference.vue"),
       },
       {
         path: "shoprule",
-        name:"商铺规则",
+        name: "商铺规则",
         component: () => import("@/views/Rule/shoprule.vue"),
       },
       {
-        path: "/bussrule",
-        name:"营业规则",
+        path: "bussrule",
+        name: "营业规则",
         component: () => import("@/views/Rule/businessrule.vue"),
       },
     ],
@@ -90,7 +68,7 @@ const routes = [
     children: [
       {
         path: "information",
-        name: '排班信息',
+        name: "排班信息",
         component: () => import("@/views/Schedule/information.vue"),
       },
     ],
@@ -119,10 +97,9 @@ router.beforeEach((to, from, next) => {
     return next({ path: from.path ? from.path : "/" });
   }
   if (token) {
-    store.dispatch("getInfo")
+    store.dispatch("getInfo");
   }
   next();
 });
-
 
 export default router;

@@ -14,27 +14,26 @@
           <span slot="title">员工信息</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/employee">个人信息</el-menu-item>
+          <el-menu-item index="/home/employee">个人信息</el-menu-item>
         </el-menu-item-group>
-
         <el-menu-item-group>
-          <el-menu-item index="/allemployee">成员信息</el-menu-item>
+          <el-menu-item index="/home/allemployee">成员信息</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
       <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span slot="title">排版规则</span>
+          <span slot="title">排班规则</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/test/rule">员工偏好</el-menu-item>
+          <el-menu-item index="/rules/rule">员工偏好</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group>
-          <el-menu-item index="/test/shoprule">商铺规则</el-menu-item>
+          <el-menu-item index="/rules/shoprule">商铺规则</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group>
-          <el-menu-item index="/test/bussrule">营业规则</el-menu-item>
+          <el-menu-item index="/rules/bussrule">营业规则</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="3">

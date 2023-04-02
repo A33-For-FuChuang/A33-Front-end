@@ -85,12 +85,13 @@ export default {
     handleClose(c) {
       if (c == "clearAll") {
         // 切换回首页
-        this.activeTab = "/home/shop";
+        this.activeTab = "/home/employee";
+        router.push(this.activeTab);
         // 过滤只剩下首页
         this.tabList = [
           {
-            title: "权限页",
-            path: "/home/shop",
+            title: "个人信息",
+            path: "/home/employee",
           },
         ];
       } else if (c == "clearOther") {

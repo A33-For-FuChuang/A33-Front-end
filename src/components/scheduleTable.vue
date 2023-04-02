@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" v-loading="loading">
     <div class="table-wrap">
       <div class="head-style">
         <dl class="table-tr">
@@ -25,6 +25,7 @@
 <script>
 import { getWeek, transformTime, formatDate } from "../composables/utils";
 import { getDateKey } from "@/composables/auth";
+import { reqGetWeekWork } from "@/api/location";
 export default {
   data() {
     return {
@@ -32,17 +33,28 @@ export default {
       dates: [],
       week: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
       today: "",
+      loading: false,
     };
   },
-  methods: {},
+  methods: {
+    async getData() {
+      this.loading=true
+      const date = getDateKey();
+      const res = await reqGetWeekWork(date);
+      if (res.state == 200) {
+        this.weekWork = res.data;
+        const formattedDate = transformTime(date);
+        this.dates = getWeek(formattedDate);
+        this.loading=false
+      }
+    },
+  },
   mounted() {
     transformTime();
-    this.$bus.$on("weekWork", (data) => {
-      this.weekWork = data;
-      const date = getDateKey();
-      const formattedDate = transformTime(date);
-      this.dates = getWeek(formattedDate);
+    this.$bus.$on("weekWork", () => {
+      this.getData();
     });
+    this.getData();
   },
 };
 </script>

@@ -1,8 +1,8 @@
 const state = {
   tabList: [
     {
-      title: "权限页",
-      path: "/home/shop",
+      title: "个人信息",
+      path: "/home/employee",
     },
   ],
   asideWidth: "250px",

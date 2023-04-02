@@ -14,7 +14,7 @@
           v-for="(item, index) in times"
           :key="index"
         >
-          <div class="li" @click="onClickHandle(index,item)">
+          <div class="li" @click="onClickHandle(index, item)">
             <div>周一 ~ 周日</div>
             <div>{{ item.week }} - {{ item.weekEnd }}</div>
           </div>
@@ -25,15 +25,16 @@
 </template>
 
 <script>
-import {reqGetWeekWork} from "@/api/location"
-import {setDateKey} from "@/composables/auth"
+import { reqGetWeekWork } from "@/api/location";
+import { setDateKey } from "@/composables/auth";
+import { formatDate } from "../composables/utils";
 export default {
   props: ["times"],
   data() {
     return {
       posIndex: 12,
       Times: [],
-      work:[]
+      work: [],
     };
   },
   methods: {
@@ -60,7 +61,7 @@ export default {
       const totalDistance = scrollWidth - clientWidth;
       scrollContentRef.style.transform = `translate(-${280 * this.posIndex}px)`;
     },
-    onClickHandle(index,item) {
+    onClickHandle(index, item) {
       this.$refs.items.forEach((element) => {
         element.style.borderBottomWidth = "0px";
         element.style.borderBottomColor = "rgb(255,255,255)";
@@ -68,21 +69,19 @@ export default {
       const li = this.$refs.items[index].style;
       li.borderBottomWidth = "2px";
       li.borderBottomColor = "rgb(64,158,255)";
-      this.getData(item.week)
+      this.getData(item.week);
     },
-    async getData(date=new Date()) {
-      setDateKey(date)
-      const res=await reqGetWeekWork(date)
-      if(res.state==200) {
-        this.$bus.$emit("weekWork",res.data)
-      }
+    async getData(date = new Date()) {
+      date = formatDate(date);
+      setDateKey(date);
+      this.$bus.$emit("weekWork");
     },
   },
   mounted() {
     this.getData();
     this.transform();
     setTimeout(() => {
-      const li = this.$refs.items[this.posIndex+1].style;
+      const li = this.$refs.items[this.posIndex + 1].style;
       li.borderBottomWidth = "2px";
       li.borderBottomColor = "rgb(64,158,255)";
     }, 500);

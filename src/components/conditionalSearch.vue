@@ -16,7 +16,7 @@
       </el-option>
     </el-select>
     <el-select
-      style="margin-left:20px"
+      style="margin-left: 20px"
       size="small"
       @change="handleChange"
       clearable
@@ -31,13 +31,22 @@
       >
       </el-option>
     </el-select>
-    <el-button style="margin-left:20px" type="primary" size="small">查看个人</el-button>
-    <el-button type="success" size="small">查看全部</el-button>
+    <el-radio-group  @change="handleChangeAll(radio)" v-model="radio">
+      <el-radio
+        style="margin-left: 20px"
+        label="0"
+        >查看全部</el-radio
+      >
+      <el-radio  label="1"
+        >查看个人</el-radio
+      >
+    </el-radio-group>
   </div>
 </template>
 
 <script>
-import { reqGetAllGroup,reqGetPositions } from "@/api/location";
+import { reqGetAllGroup, reqGetPositions,reqGetWeekLocations } from "@/api/location";
+import { getDateKey } from '../composables/auth';
 export default {
   data() {
     return {
@@ -64,8 +73,9 @@ export default {
           label: "北京烤鸭",
         },
       ],
-      position:"",
-      positionAll:[],
+      position: "",
+      positionAll: [],
+      radio: "0",
     };
   },
   methods: {
@@ -76,9 +86,23 @@ export default {
       }
     },
     async getAllPosion() {
-      const res=await reqGetPositions()
+      const res = await reqGetPositions();
+      if (res.state == 200) {
+        this.positionAll = res.data;
+      }
+    },
+    async GetWeekLocations() {
+      const date=getDateKey()
+      const res=await reqGetWeekLocations(date)
       if(res.state==200) {
-        this.positionAll=res.data
+        console.log(res);
+      }
+    },
+    handleChangeAll(value) {
+      if(value==0) {
+        this.$bus.$emit("weekWork");
+      } else {
+        this.GetWeekLocations()
       }
     },
     handleChange(val) {
