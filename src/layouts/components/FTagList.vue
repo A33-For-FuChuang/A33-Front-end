@@ -47,7 +47,9 @@ export default {
   },
   methods: {
     init() {
+      this.addTab({title:this.$route.name,path:this.$route.fullPath})
       router.afterEach((to, next, from) => {
+        if(to.path=='/login') return
         this.activeTab = to.path;
         this.addTab({
           title: to.name,
@@ -97,7 +99,7 @@ export default {
       } else if (c == "clearOther") {
         // 过滤只剩下首页和当前激活
         this.tabList = this.tabList.filter(
-          (tab) => tab.path == "/" || tab.path == this.activeTab
+          (tab) => tab.path == "/home/employee" || tab.path == this.activeTab
         );
       }
       store.commit("setTabList", this.tabList);

@@ -6,6 +6,7 @@
       clearable
       v-model="groupId"
       placeholder="按小组查看"
+      :disabled="radio == 1"
     >
       <el-option
         v-for="item in groupAll"
@@ -22,6 +23,7 @@
       clearable
       v-model="position"
       placeholder="按职位查看"
+      :disabled="radio == 1"
     >
       <el-option
         v-for="item in positionAll"
@@ -31,22 +33,16 @@
       >
       </el-option>
     </el-select>
-    <el-radio-group  @change="handleChangeAll(radio)" v-model="radio">
-      <el-radio
-        style="margin-left: 20px"
-        label="0"
-        >查看全部</el-radio
-      >
-      <el-radio  label="1"
-        >查看个人</el-radio
-      >
+    <el-radio-group @change="handleChangeAll(radio)" v-model="radio">
+      <el-radio style="margin-left: 20px" label="0">查看全部</el-radio>
+      <el-radio :disabled="isDisabled" label="1">查看个人</el-radio>
     </el-radio-group>
   </div>
 </template>
 
 <script>
-import { reqGetAllGroup, reqGetPositions,reqGetWeekLocations } from "@/api/location";
-import { getDateKey } from '../composables/auth';
+import { reqGetAllGroup, reqGetPositions } from "@/api/location";
+import { getDateKey } from "../composables/auth";
 export default {
   data() {
     return {
@@ -91,28 +87,27 @@ export default {
         this.positionAll = res.data;
       }
     },
-    async GetWeekLocations() {
-      const date=getDateKey()
-      const res=await reqGetWeekLocations(date)
-      if(res.state==200) {
-        console.log(res);
-      }
-    },
     handleChangeAll(value) {
-      if(value==0) {
+      if (value == 0) {
+        this.$store.commit("setIsPublicTrue");
         this.$bus.$emit("weekWork");
       } else {
-        this.GetWeekLocations()
+        this.$store.commit("setIsPublicFalse");
+        this.$bus.$emit("weekWork");
       }
     },
     handleChange(val) {
       console.log(val);
     },
   },
+  computed: {
+    isDisabled() {
+      return (this.groupId != "" || this.position != "") == true ? true : false;
+    },
+  },
   mounted() {
     this.getAllGroup();
     this.getAllPosion();
-    console.log(this.$route);
   },
 };
 </script>

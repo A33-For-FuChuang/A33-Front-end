@@ -13,6 +13,7 @@ const routes = [
   },
   {
     path: "/login",
+    name:"login",
     component: () => import("@/views/Login.vue"),
   },
   {
@@ -20,15 +21,15 @@ const routes = [
     name: "home",
     component: () => import("@/layouts/admin.vue"),
     children: [
-      {
-        path: "user",
-        component: () => import("@/views/Home/user.vue"),
-      },
-      {
-        path: "shop",
-        name: "商铺详情",
-        component: () => import("@/views/Home/shop.vue"),
-      },
+      // {
+      //   path: "user",
+      //   component: () => import("@/views/Home/user.vue"),
+      // },
+      // {
+      //   path: "shop",
+      //   name: "商铺详情",
+      //   component: () => import("@/views/Home/shop.vue"),
+      // },
       {
         path: "employee",
         name: "个人信息",

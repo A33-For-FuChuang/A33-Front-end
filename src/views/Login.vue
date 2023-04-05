@@ -103,6 +103,7 @@ import { Toast, resetObj } from "../composables/utils";
 import { reqRegister, reqLogin } from "../api/employee";
 import { setToken } from "../composables/auth";
 export default {
+  name:"login",
   data() {
     return {
       loading: false,
@@ -187,7 +188,7 @@ export default {
           this.$store.commit("setToken", res.data.token);
           this.$store.dispatch("getInfo");
           Toast("登录成功");
-          this.$router.push("/");
+          this.$router.push("/home/employee");
         } else {
           Toast(res.message, "error");
         }

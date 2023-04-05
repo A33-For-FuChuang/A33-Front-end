@@ -6,6 +6,7 @@ const state = {
     },
   ],
   asideWidth: "250px",
+  isPublic:true
 };
 
 const mutations = {
@@ -17,6 +18,12 @@ const mutations = {
   },
   setAsideWidth(state) {
     state.asideWidth = state.asideWidth == "250px" ? "64px" : "250px";
+  },
+  setIsPublicTrue(state) {
+    state.isPublic=state.isPublic=true
+  },
+  setIsPublicFalse(state) {
+    state.isPublic=state.isPublic=false
   }
 };
 

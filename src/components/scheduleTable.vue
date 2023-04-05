@@ -12,9 +12,8 @@
       <div class="head-style">
         <dl class="table-tr" v-for="(item, index) in weekWork" :key="index">
           <dd v-for="dd in item" :key="dd.locationID">
-            <!-- <span>{{ dd[0]?.name }}</span>
-            <div>{{ dd[0]?.position }}</div> -->
-            {{ dd }}
+            <span>{{ dd[0]?.name }}</span>
+            <div>{{ dd[0]?.position }}</div>
           </dd>
         </dl>
       </div>
@@ -23,9 +22,13 @@
 </template>
 
 <script>
-import { getWeek, transformTime, formatDate } from "../composables/utils";
+import {
+  getWeek,
+  transformTime,
+  formatDate,
+} from "../composables/utils";
 import { getDateKey } from "@/composables/auth";
-import { reqGetWeekWork } from "@/api/location";
+import { reqGetWeekWork,reqGetWeekLocations } from "@/api/location";
 export default {
   data() {
     return {
@@ -37,24 +40,39 @@ export default {
     };
   },
   methods: {
-    async getData() {
-      this.loading=true
+    async getAllData() {
+      this.loading = true;
       const date = getDateKey();
       const res = await reqGetWeekWork(date);
       if (res.state == 200) {
         this.weekWork = res.data;
         const formattedDate = transformTime(date);
         this.dates = getWeek(formattedDate);
-        this.loading=false
+        this.loading = false;
+      }
+    },
+    async getPersonData() {
+      this.loading = true;
+      const date = getDateKey();
+      const res = await reqGetWeekLocations(date);
+      if (res.state == 200) {
+        this.weekWork = res.data;
+        const formattedDate = transformTime(date);
+        this.dates = getWeek(formattedDate);
+        this.loading = false;
       }
     },
   },
   mounted() {
     transformTime();
     this.$bus.$on("weekWork", () => {
-      this.getData();
+      if(this.$store.state.common.isPublic) {
+        this.getAllData()
+      } else {
+        this.getPersonData()
+      }
     });
-    this.getData();
+    this.getAllData();
   },
 };
 </script>
