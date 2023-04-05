@@ -14,9 +14,7 @@
       <el-descriptions-item label="店名">{{
         form.shopName
       }}</el-descriptions-item>
-      <el-descriptions-item label="组名" :span="2">{{
-        form.groupName
-      }}</el-descriptions-item>
+      <el-descriptions-item label="组名" :span="2"></el-descriptions-item>
 
       <el-descriptions-item label="工作日偏好"
         ></el-descriptions-item
@@ -26,7 +24,7 @@
       >
 
       <el-descriptions-item label="班次时间偏好"
-        >{{form.employeeWorkTimeDTO}}</el-descriptions-item
+        ></el-descriptions-item
       >
     </el-descriptions>
 
@@ -63,6 +61,8 @@ export default {
     async personalinfo() {
       const res = await employeeinfo();
       this.form = res.data;
+      console.log("------------------")
+      console.log(this.form)
       console.log("个人信息页面");
       console.log(res);
     },
@@ -73,6 +73,7 @@ export default {
         this.$refs.inputVal.focus();
       });
     },
+    //这里显示网络错误
     async save() {
       this.adddata.phone = this.form.phone;
       this.adddata.email = this.form.email;

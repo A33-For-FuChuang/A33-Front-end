@@ -5,9 +5,9 @@
       <el-table-column prop="name" label="姓名">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
-            <p>{{ scope.row.hobbyType1 }}:{{ scope.row.employeeWorkDayDTO.employeeWorkDayList }} </p>
-            <p>{{ scope.row.hobbyType2 }}: {{  scope.row.employeeWorkTimeDTO.employeeWorkTimeList[0]}}</p>
-            <p>{{ scope.row.hobbyType3 }}: {{  scope.row.employeeLastTimeDTO.lastTime}}</p>
+            <p>{{ scope.row.hobbyType1 }}:</p>
+            <p>{{ scope.row.hobbyType2 }}:</p>
+            <p>{{ scope.row.hobbyType3 }}:</p>
 
             <div slot="reference" class="name-wrapper">
               <el-tag size="medium">{{ scope.row.name }}</el-tag>
@@ -16,7 +16,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="position" label="职位"></el-table-column>
-      <el-table-column prop="phone" label="电话" >
+      <el-table-column prop="phone" label="电话">
         <template slot-scope="{ row }">
           <!-- 这里逻辑有问题 -->
           <!-- {{ isPositionVisibleForUser(row) ? row.phone : "无权限查看" }} -->
@@ -33,6 +33,7 @@
           <el-button type="primary" @click="editRule(scope.row)"
             >编辑</el-button
           >
+       
         </template>
       </el-table-column>
     </el-table>
@@ -55,21 +56,22 @@ export default {
     this.fetchData();
   },
   methods: {
-   
     async fetchData() {
+      
       const res = await allemployee();
       const res2 = await employeeinfo();
       const people = res.data;
-      console.log("这是个人信息界面");
-      console.log(res)
+    this.form=res.data;
+      console.log("这是成员信息界面");
+      console.log(res);
 
-      if (res2.data.position === "店长") {
-        this.form = people;
-      } else if (res2.data.position === "组长") {
-        this.form = people.filter((item) => item.position === "小组长");
-      } else {
-        this.form = people.filter((item) => item.name);
-      }
+      // if (res2.data.position === "店长") {
+      //   this.form = people;
+      // } else if (res2.data.position === "组长") {
+      //   this.form = people.filter((item) => item.position === "小组长");
+      // } else {
+      //   this.form = people.filter((item) => item.name);
+      // }
     },
   },
 };

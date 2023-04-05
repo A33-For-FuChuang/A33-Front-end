@@ -27,14 +27,18 @@
           <span slot="title">排班规则</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/rules/rule">员工偏好</el-menu-item>
+          <el-menu-item index="/home/rule">员工偏好</el-menu-item>
         </el-menu-item-group>
-        <el-menu-item-group>
-          <el-menu-item index="/rules/shoprule">商铺规则</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group>
-          <el-menu-item index="/rules/bussrule">营业规则</el-menu-item>
-        </el-menu-item-group>
+        <!-- <el-menu-item-group>
+          <el-menu-item index="/home/shoprule">商铺规则</el-menu-item>
+        </el-menu-item-group> -->
+        
+      
+         <el-submenu index="1-4">
+          <template slot="title">商铺规则</template>
+          <el-menu-item index="/home/bussrule">自定义规则</el-menu-item>
+          <el-menu-item index="/home/shoprule">系统规则</el-menu-item>
+        </el-submenu>
       </el-submenu>
       <el-submenu index="3">
         <template slot="title">
