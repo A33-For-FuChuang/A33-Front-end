@@ -21,27 +21,15 @@ const routes = [
     name: "home",
     component: () => import("@/layouts/admin.vue"),
     children: [
-<<<<<<< HEAD
-      // {
-      //   path: "user",
-      //   component: () => import("@/views/Home/user.vue"),
-      // },
-      // {
-      //   path: "shop",
-      //   name: "商铺详情",
-      //   component: () => import("@/views/Home/shop.vue"),
-      // },
-=======
       {
         path: "user",
-        component: () => import("@/views/Home/User.vue"),
+        component: () => import("@/views/Home/user.vue"),
       },
       {
         path: "shop",
         name: '商铺详情',
         component: () => import("@/views/Home/shop.vue"),
       },
->>>>>>> e6a0e645826cbb2ca289abe38010a69d42b7d108
       {
         path: "employee",
         name: '个人信息',

@@ -19,7 +19,7 @@
     <el-select
       style="margin-left: 20px"
       size="small"
-      @change="handleChange"
+      @change="handleChangePosition"
       clearable
       v-model="position"
       placeholder="按职位查看"
@@ -42,7 +42,6 @@
 
 <script>
 import { reqGetAllGroup, reqGetPositions } from "@/api/location";
-import { getDateKey } from "../composables/auth";
 export default {
   data() {
     return {
@@ -97,7 +96,12 @@ export default {
       }
     },
     handleChange(val) {
-      console.log(val);
+      this.position = "";
+      this.$bus.$emit("groupWork", val);
+    },
+    handleChangePosition(val) {
+      this.groupId = "";
+      this.$bus.$emit("positionWork", val);
     },
   },
   computed: {
