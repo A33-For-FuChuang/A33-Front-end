@@ -59,3 +59,5 @@ export const reqGetDayLocations = (dateTimeWeek) =>
     params: { dateTimeWeek },
     method: "get",
   });
+
+

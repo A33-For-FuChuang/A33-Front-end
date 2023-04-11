@@ -23,7 +23,7 @@ const routes = [
     children: [
       {
         path: "user",
-        component: () => import("@/views/Home/user.vue"),
+        component: () => import("@/views/Home/User.vue"),
       },
       {
         path: "shop",
@@ -47,12 +47,12 @@ const routes = [
       },
       {
         path: "shoprule",
-        name: '商铺规则',
+        name: '系统规则',
         component: () => import("@/views/Rule/shoprule.vue"),
       },
       {
         path: "bussrule",
-        name: '营业规则',
+        name: '自定义规则',
         component: () => import("@/views/Rule/businessrule.vue"),
       },
     ],
@@ -91,6 +91,17 @@ const routes = [
         path: "information",
         name: '排班信息',
         component: () => import("@/views/Schedule/information.vue"),
+      },
+    ],
+  },
+  {
+    path: "/shop",
+    component: () => import("@/layouts/admin.vue"),
+    children: [
+      {
+        path: "shopinformation",
+        name: '商铺信息',
+        component: () => import("@/views/Shop/shopinformation.vue"),
       },
     ],
   },

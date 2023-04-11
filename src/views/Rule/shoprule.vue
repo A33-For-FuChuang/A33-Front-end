@@ -1,209 +1,466 @@
 <template>
   <div class="shop-rules">
-    <h2>门店营业时间段</h2>
+    <div class="box1">
+      <h2>门店营业时间段</h2>
+      <el-button
+        type="primary"
+        style="font-size: 12px"
+        class="but1"
+        @click="showEditDialog1"
+        v-if="showedit"
+        >编辑</el-button
+      >
+    </div>
+
     <el-form :model="lastTime" label-width="120px">
-      
-      <el-form-item label="工作日">
-        <el-input v-model="lastTime.workDay" ref="workDayInput"></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('workDayInput')"></i>
-          <i class="el-icon-check" @click="save('openDayInput')"></i>
-        </span>
-      </el-form-item>
-     
-     
-      <el-form-item label="上班时间">
-        <el-input v-model="lastTime.workStart" ref="workStartInput"></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('workStartInput')"></i>
-          <i class="el-icon-check" @click="save('workStartInput')"></i>
-        </span>
-      </el-form-item>
- 
-      <el-form-item label="下班时间">
-        <el-input v-model="lastTime.workEnd" ref="workEndInput"></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('workEndInput')"></i>
-          <i class="el-icon-check" @click="save('workEndInput')"></i>
-        </span>
-      </el-form-item>
-      <el-form-item label="周末上班">
-        <el-input v-model="lastTime.weekend" ref="weekendInput"></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('weekendInput')"></i>
-          <i class="el-icon-check" @click="save('weekendInput')"></i>
-        </span>
-      </el-form-item>
-      <el-form-item label="周末上班时间">
-        <el-input
-          v-model="lastTime.weekendStart"
-          ref="weekendStartInput"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('weekendStartInput')"></i>
-          <i class="el-icon-check" @click="save('weekendStartInput')"></i>
-        </span>
-      </el-form-item>
-      <el-form-item label="周末下班时间">
+      <el-col :span="8">
+        <el-form-item label="工作日">
+          <el-input v-model="lastTime.workDay" :readonly="true"></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="上班时间/点">
+          <el-input v-model="lastTime.workStart" :readonly="true"></el-input>
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="8">
+        <el-form-item label="下班时间/点">
+          <el-input
+            v-model="lastTime.workEnd"
+            ref="workEndInput"
+            :readonly="true"
+          ></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="周末上班">
+          <el-input
+            v-model="lastTime.weekend"
+            ref="weekendInput"
+            :readonly="true"
+          ></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="周末上班时间/点">
+          <el-input
+            v-model="lastTime.weekendStart"
+            ref="weekendStartInput"
+            :readonly="true"
+          ></el-input>
+        </el-form-item>
+      </el-col>
+      <el-form-item label="周末下班时间/点">
         <el-input
           v-model="lastTime.weekendEnd"
           ref="weekendEndInput"
+          :readonly="true"
         ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('weekendEndInput')"></i>
-          <i class="el-icon-check" @click="save('weekendEndInput')"></i>
-        </span>
       </el-form-item>
     </el-form>
-    <h2>员工工作时长</h2>
-    <el-form :model="employeeworkTime" label-width="140px">
-      <el-form-item label="单周最长工作时间/h">
-        <el-input
-          v-model="employeeworkTime.weekMaxTime"
-          ref="weekMaxTimeInput"
-        ></el-input>
+    <el-dialog :visible.sync="editDialogVisible1">
+      <el-form :model="lastTime" label-width="120px" :inline="true">
+        <el-form-item label="工作日">
+          <el-input v-model="lastTime.workDay"></el-input>
+        </el-form-item>
 
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('weekMaxTimeInput')"></i>
-          <i class="el-icon-check" @click="save('weekMaxTimeInput')"></i>
-        </span>
-      </el-form-item>
+        <el-form-item label="上班时间/点">
+          <el-select
+            v-model="lastTime.workStart"
+            placeholder="请选择"
+            style="width: 120px"
+          >
+            <el-option v-for="number in numbers" :key="number" :value="number">
+              {{ number }}
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-      <el-form-item label="单日最长工作时间">
-        <el-input
-          v-model="employeeworkTime.dayMaxTime"
-          ref="dayMaxTimeInput"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('dayMaxTimeInput')"></i>
-          <i class="el-icon-check" @click="save('dayMaxTimeInput')"></i>
-        </span>
-      </el-form-item>
+        <el-form-item label="下班时间/点">
+          <el-select
+            v-model="lastTime.workEnd"
+            placeholder="请选择"
+            style="width: 120px"
+          >
+            <el-option v-for="number in numbers" :key="number" :value="number">
+              {{ number }}
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-      <el-form-item label="单次工作时间最小值">
-        <el-input
-          v-model="employeeworkTime.locationMinTime"
-          ref="locationMinTimeInput"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('locationMinTimeInput')"></i>
-          <i class="el-icon-check" @click="save('locationMinTimeInput')"></i>
-        </span>
-      </el-form-item>
-      <el-form-item label="单次工作时间最大值">
-        <el-input
-          v-model="employeeworkTime.locationMaxTime"
-          ref="locationMaxTimeInput"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('locationMaxTimeInput')"></i>
-          <i class="el-icon-check" @click="save('locationMaxTimeInput')"></i>
-        </span>
-      </el-form-item>
+        <el-form-item label="周末上班">
+          <el-input v-model="lastTime.weekend" ref="weekendInput"></el-input>
+        </el-form-item>
+
+        <el-form-item label="周末上班时间/点">
+          <el-select
+            v-model="lastTime.weekendStart"
+            placeholder="请选择"
+            style="width: 120px"
+          >
+            <el-option v-for="number in numbers" :key="number" :value="number">
+              {{ number }}
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="周末下班时间/点">
+          <el-select
+            v-model="lastTime.weekendEnd"
+            placeholder="请选择"
+            style="width: 120px"
+          >
+            <el-option v-for="number in numbers" :key="number" :value="number">
+              {{ number }}
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+    <div class="box1">
+      <h2>员工工作时长</h2>
+      <el-button
+        type="primary"
+        style="font-size: 12px"
+        class="but1"
+        @click="showEditDialog2"
+        v-if="showedit"
+        >编辑</el-button
+      >
+    </div>
+    <el-form :model="employeeworkTime" label-width="160px">
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="单周最长工作时间/h">
+            <el-input
+              v-model="employeeworkTime.weekMaxTime"
+              ref="weekMaxTimeInput"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="单日最长工作时间/h">
+            <el-input
+              v-model="employeeworkTime.dayMaxTime"
+              ref="dayMaxTimeInput"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="单次工作时间最小值/h">
+            <el-input
+              v-model="employeeworkTime.locationMinTime"
+              ref="locationMinTimeInput"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-form-item label="单次工作时间最大值/h">
+          <el-input
+            v-model="employeeworkTime.locationMaxTime"
+            ref="locationMaxTimeInput"
+            :readonly="true"
+          ></el-input>
+        </el-form-item>
+      </el-row>
     </el-form>
-    <h2>休息时间段</h2>
+    <el-dialog :visible.sync="editDialogVisible2">
+      <el-form :model="employeeworkTime" label-width="160px" :inline="true">
+        <el-form-item label="单周最长工作时间/h">
+          <el-input
+            v-model="employeeworkTime.weekMaxTime"
+            ref="weekMaxTimeInput"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="单日最长工作时间/h">
+          <el-input
+            v-model="employeeworkTime.dayMaxTime"
+            ref="dayMaxTimeInput"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="单次工作时间最小值/h">
+          <el-input
+            v-model="employeeworkTime.locationMinTime"
+            ref="locationMinTimeInput"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="单次工作时间最大值/h">
+          <el-input
+            v-model="employeeworkTime.locationMaxTime"
+            ref="locationMaxTimeInput"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm2">确 定</el-button>
+        <el-button @click="cancel2">取 消</el-button>
+      </div>
+    </el-dialog>
+    <div class="box1">
+      <h2>休息时间段</h2>
+      <el-button
+        type="primary"
+        style="font-size: 12px"
+        class="but1"
+        @click="showEditDialog3"
+        v-if="showedit"
+        >编辑</el-button
+      >
+    </div>
     <el-form :model="restTime" label-width="120px">
-      <el-form-item label="午餐时长/h">
-        <el-input v-model="restTime.lunchTime" ref="lunchTimeInput"></el-input>
-
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('lunchTimeInput')"></i>
-          <i class="el-icon-check" @click="save('lunchTimeInput')"></i>
-        </span>
-      </el-form-item>
-
-      <el-form-item label="午餐开始时间">
-        <el-input
-          v-model="restTime.lunchTimeStart"
-          ref="lunchTimeStartInput"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('lunchTimeStartInput')"></i>
-          <i class="el-icon-check" @click="save('lunchTimeStartInput')"></i>
-        </span>
-      </el-form-item>
-
-      <el-form-item label="午餐结束时间">
-        <el-input
-          v-model="restTime.lunchTimeEnd"
-          ref="lunchTimeEndInput"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('lunchTimeEndInput')"></i>
-          <i class="el-icon-check" @click="save('lunchTimeEndInput')"></i>
-        </span>
-      </el-form-item>
-
-      <el-form-item label="晚餐时长">
-        <el-input
-          v-model="restTime.dinnerTime"
-          ref="dinnerTimeInput"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('dinnerTimeInput')"></i>
-          <i class="el-icon-check" @click="save('dinnerTimeInput')"></i>
-        </span>
-      </el-form-item>
-      <el-form-item label="晚餐开始时间">
-        <el-input
-          v-model="restTime.dinnerTimeStart"
-          ref="dinnerTimeStart"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('dinnerTimeStart')"></i>
-          <i class="el-icon-check" @click="save('dinnerTimeStart')"></i>
-        </span>
-      </el-form-item>
-      <el-form-item label="晚餐结束时间">
-        <el-input
-          v-model="restTime.dinnerTimeEnd"
-          ref="dinnerTimeEnd"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('dinnerTimeEnd')"></i>
-          <i class="el-icon-check" @click="save('dinnerTimeEnd')"></i>
-        </span>
-      </el-form-item>
-      <el-form-item label="休息时长">
-        <el-input v-model="restTime.resttime" ref="resttimeInput"></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('resttimeInput')"></i>
-          <i class="el-icon-check" @click="save('resttimeInput')"></i>
-        </span>
-      </el-form-item>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="午餐时长/h">
+            <el-input
+              v-model="restTime.lunchTime"
+              ref="lunchTimeInput"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="午餐开始时间/点">
+            <el-input
+              v-model="restTime.lunchTimeStart"
+              ref="lunchTimeStartInput"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="午餐结束时间/点">
+            <el-input
+              v-model="restTime.lunchTimeEnd"
+              ref="lunchTimeEndInput"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="晚餐时长">
+            <el-input
+              v-model="restTime.dinnerTime"
+              ref="dinnerTimeInput"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="晚餐开始时间/点">
+            <el-input
+              v-model="restTime.dinnerTimeStart"
+              ref="dinnerTimeStart"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="晚餐结束时间/点">
+            <el-input
+              v-model="restTime.dinnerTimeEnd"
+              ref="dinnerTimeEnd"
+              :readonly="true"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-form-item label="休息时长">
+          <el-input
+            v-model="restTime.resttime"
+            ref="resttimeInput"
+            :readonly="true"
+          ></el-input>
+        </el-form-item>
+      </el-row>
     </el-form>
-    <h2>班次职位安排</h2>
+    <el-dialog :inline="true" :visible.sync="editDialogVisible3">
+      <el-form :model="restTime" label-width="120px" :inline="true">
+        <el-form-item label="午餐时长/h">
+          <el-input
+            v-model="restTime.lunchTime"
+            ref="lunchTimeInput"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="午餐开始时间/点">
+          <el-select
+            v-model="restTime.lunchTimeStart"
+            placeholder="请选择"
+            style="width: 120px"
+          >
+            <el-option v-for="rest in restnumbers" :key="rest" :value="rest">
+              {{ rest }}
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="午餐结束时间/点">
+          <el-select
+            v-model="restTime.lunchTimeEnd"
+            placeholder="请选择"
+            style="width: 120px"
+          >
+            <el-option v-for="rest in restnumbers" :key="rest" :value="rest">
+              {{ rest }}
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="晚餐时长/h">
+          <el-input
+            v-model="restTime.dinnerTime"
+            ref="dinnerTimeInput"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="晚餐开始时间/点">
+          <el-select
+            v-model="restTime.dinnerTimeStart"
+            placeholder="请选择"
+            style="width: 120px"
+          >
+            <el-option v-for="rest in restnumbers" :key="rest" :value="rest">
+              {{ rest }}
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="晚餐结束时间/点">
+          <el-select
+            v-model="restTime.dinnerTimeEnd"
+            placeholder="请选择"
+            style="width: 120px"
+          >
+            <el-option v-for="rest in restnumbers" :key="rest" :value="rest">
+              {{ rest }}
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="休息时长/h">
+          <el-input v-model="restTime.resttime" ref="resttimeInput"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm3">确 定</el-button>
+        <el-button @click="cancel3">取 消</el-button>
+      </div>
+    </el-dialog>
+    <div class="box1">
+      <h2>班次职位安排</h2>
+      <el-button
+        type="primary"
+        style="font-size: 12px"
+        class="but1"
+        @click="showEditDialog4"
+        v-if="showedit"
+        >编辑</el-button
+      >
+    </div>
     <el-form :model="groupPosition" label-width="120px">
-      <el-form-item label="职位人数">
-        <el-input
-          v-model="groupPosition.positionMap"
-          ref="positionMapInput"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('positionMapInput')"></i>
-          <i class="el-icon-check" @click="save('positionMapInput')"></i>
-        </span>
-      </el-form-item>
-      <el-form-item label="职位">
-        <el-input
-          v-model="groupPosition.position"
-          ref="positionInput"
-        ></el-input>
-        <span class="icon-container">
-          <i class="el-icon-edit" @click="edit('positionInput')"></i>
-          <i class="el-icon-check" @click="save('positionInput')"></i>
-        </span>
-      </el-form-item>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="各职位人数">
+            <el-input
+              v-model="groupPosition.positionMap"
+              ref="positionMapInput"
+              style="width: 250px"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
+    <el-dialog :visible.sync="editDialogVisible4">
+      <el-form :model="groupPosition" label-width="120px" :inline="true">
+        <el-form-item label="职位">
+          <el-select
+            v-model="groupPosition.position1"
+            placeholder="请选择"
+            style="width: 150px"
+          >
+            <el-option label="导购" value="导购"></el-option>
+            <el-option label="收银" value="收银"></el-option>
+            <el-option label="库房" value="库房"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="人数">
+          <el-input
+            v-model="groupPosition.positionMapnum1"
+            placeholder="请填写"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <el-form :model="groupPosition" label-width="120px" :inline="true">
+        <el-form-item label="职位">
+          <el-select
+            v-model="groupPosition.position2"
+            placeholder="请选择"
+            style="width: 150px"
+          >
+            <el-option label="导购" value="导购"></el-option>
+            <el-option label="收银" value="收银"></el-option>
+            <el-option label="库房" value="库房"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="人数">
+          <el-input
+            v-model="groupPosition.positionMapnum2"
+            placeholder="请填写"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <el-form :model="groupPosition" label-width="120px" :inline="true">
+        <el-form-item label="职位">
+          <el-select
+            v-model="groupPosition.position3"
+            placeholder="请选择"
+            style="width: 150px"
+          >
+            <el-option label="导购" value="导购"></el-option>
+            <el-option label="收银" value="收银"></el-option>
+            <el-option label="库房" value="库房"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="人数">
+          <el-input
+            v-model="groupPosition.positionMapnum3"
+            placeholder="请填写"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm4">确 定</el-button>
+        <el-button @click="cancel4">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { reqShowSystem } from "../../api/shopRule";
+import {
+  reqShowSystem,
+  reqLastTime,
+  reqWorkTime,
+  reqRestTime,
+  reqGroupPosition,
+} from "../../api/shopRule";
+import { employeeinfo } from "../../api/employee";
+
 import { Toast, resetObj } from "../../composables/utils";
 export default {
   data() {
     return {
+      form: {},
       lastTime: {
         workDay: "",
         workStart: "",
@@ -230,22 +487,54 @@ export default {
         resttime: "",
       },
       groupPosition: {
+        //显示职位和数字
         positionMap: "",
-        position: "",
+        //职位和相应的人数
+        positionMapnum1: "",
+        position1: "",
+        positionMapnum2: "",
+        position2: "",
+        positionMapnum2: "",
+        position3: "",
       },
+
+      editDialogVisible1: false,
+      editDialogVisible2: false,
+      editDialogVisible3: false,
+
+      editDialogVisible4: false,
+      newposition: [],
+      showedit: false,
+      numbers: Array.from({ length: 18 }, (_, index) => index + 6), // 6-23 的数组
+      restnumbers: Array.from({ length: 12 }, (_, index) => index + 11), // 生成 1-100 的数组
     };
   },
+
   created() {
+    this.personalinfo();
     this.systemRule();
   },
 
   methods: {
+    async personalinfo() {
+      const res = await employeeinfo();
+      this.form = res.data;
+      console.log(this.form.position);
+      if (this.form.position != "店长" && this.form.position != "经理") {
+        this.showedit = false;
+        console.log("我不是店长");
+        return this.showedit;
+      } else {
+        this.showedit = true;
+        return this.showedit;
+      }
+    },
     async systemRule() {
       const res = await reqShowSystem();
 
       console.log("商铺系统规则页面");
       console.log(res);
-      console.log(res.data[0].systemRoleValue)
+      console.log(res.data[0].systemRoleValue);
       const worktime1 = JSON.parse(res.data[0].systemRoleValue);
       this.lastTime.workDay = worktime1.workDay;
       console.log(worktime1.workDay);
@@ -255,10 +544,10 @@ export default {
       this.lastTime.workEnd = workover.workEnd;
       const workend = JSON.parse(res.data[0].systemRoleValue);
       this.lastTime.weekend = workend.weekend;
-      console.log(workend.weekend)
-        const workendStart = JSON.parse(res.data[0].systemRoleValue);
+      console.log(workend.weekend);
+      const workendStart = JSON.parse(res.data[0].systemRoleValue);
       this.lastTime.weekendStart = workendStart.weekendStart;
-        const workendEnd = JSON.parse(res.data[0].systemRoleValue);
+      const workendEnd = JSON.parse(res.data[0].systemRoleValue);
       this.lastTime.weekendEnd = workendEnd.weekendEnd;
 
       //员工工作时长
@@ -289,74 +578,93 @@ export default {
 
       //班次职位安排
       const positionMap = JSON.parse(res.data[3].systemRoleValue);
-      // this.groupPosition. positionMap =  positionMap.positionMap;
-      console.log(res.data[3].systemRoleValue)
-      console.log(positionMap.PositionMap)
-      //    const position = JSON.parse(res.data[3].systemRoleValue);
-      // this.groupPosition. position =  position. position;
+      console.log("--------------------------");
+      console.log(positionMap.PositionMap);
 
+      let str = JSON.stringify(positionMap.PositionMap);
+      str = str.replace(/[{}"]/g, "").replace(/:/g, ": ");
+      this.groupPosition.positionMap = str;
+      // this.groupPosition.positionMapnum=positionMap.PositionMap
+      this.groupPosition.positionCount = Object.keys(
+        positionMap.PositionMap
+      ).length;
+      // console.log(positionCount);
+      // //获取职位后面的人数
+      for (const positionmap in positionMap.PositionMap) {
+        console.log("--------------------------------------");
+        console.log(positionMap.PositionMap[positionmap]);
+
+        this.groupPosition.positionMapnum =
+          positionMap.PositionMap[positionmap] +
+          "," +
+          this.groupPosition.positionMapnum;
+      }
+      // //去掉最后一个逗号
+      this.groupPosition.positionMapnum =
+        this.groupPosition.positionMapnum.slice(0, -1);
+
+      const position = JSON.parse(res.data[3].systemRoleValue);
+    },
+    showEditDialog1() {
+      this.editDialogVisible1 = true;
+    },
+    showEditDialog2() {
+      this.editDialogVisible2 = true;
+    },
+    showEditDialog3() {
+      this.editDialogVisible3 = true;
+    },
+    showEditDialog4() {
+      this.editDialogVisible4 = true;
+    },
+    async submitForm() {
+      const res1 = await reqLastTime(this.lastTime);
+      console.log("这是门店营业时间段");
+      console.log(res1);
+      Toast("修改成功");
+       this.editDialogVisible1 = false;
+    },
+    async submitForm2() {
+      const res2 = await reqWorkTime(this.employeeworkTime);
+      console.log("这是员工工作时间");
+      console.log(res2);
+      Toast("修改成功");
+       this.editDialogVisible2 = false;
 
     },
+    async submitForm3() {
+      const res3 = await reqRestTime(this.restTime);
+      console.log("这是休息时间");
+      console.log(res3);
+      Toast("修改成功");
+       this.editDialogVisible3 = false;
+    },
 
-    // edit(refName) {
-    //   this.$refs[refName].focus();
-    //   console.log("这是修改框");
-    //   console.log(refName);
-    // },
-    // async save(refName) {
-    //   if (
-    //     refName === "openTimeInput" ||
-    //     refName === "baseValueInput" ||
-    //     refName === "employeeValueInput"
-    //   ) {
-    //     console.log(refName);
-    //     console.log("*****************-------------------");
-    //     console.log(this.openRule);
-    //     const res2 = await reqopenRule(this.openRule);
-    //     console.log("这是修改openRule");
-    //     console.log(res2);
-    //     if (res2.state == 200) {
-    //       Toast("修改成功");
-    //     }
-    //   } else if (
-    //     refName === "closeTimeInput" ||
-    //     refName === "closebaseValueInput" ||
-    //     refName === "close-employeeInput" ||
-    //     refName === "minemployeeInput"
-    //   ) {
-    //     const res3 = await reqcloseRule(this.closeRule);
-    //     console.log("这是修改关店规则");
-    //     console.log(res3);
-    //     if (res3.state == 200) {
-    //       Toast("修改成功");
-    //     }
-    //   } else if (refName === "flowBase") {
-    //     const res4 = await reqFlowRule(this.flowRule);
-    //     console.log("这是修改客流规则");
-    //     console.log(res4);
-    //     if (res4.state == 200) {
-    //       Toast("修改成功");
-    //     }
-    //   } else if (refName === "groupBaseInput") {
-    //     const res5 = await reqGroupRule(this.groupRule);
-    //     console.log("这是修改分组规则");
-    //     console.log(res5);
-    //     if (res5.state == 200) {
-    //       Toast("修改成功");
-    //     }
-    //   } else if (
-    //     refName === "maxDurationInput" ||
-    //     refName === "minStaffInput" ||
-    //     refName === "minDurationInput"
-    //   ) {
-    //     const res6 = await reqStockRule(this.stockRule);
-    //     console.log("这是修改进货规则");
-    //     console.log(res6);
-    //     if (res6.state == 200) {
-    //       Toast("修改成功");
-    //     }
-    //   }
-    // },
+    async submitForm4() {
+      console.log(this.groupPosition);
+      if(this.groupPosition.positionMapnum1==''||this.groupPosition.positionMapnum2==''||this.groupPosition.positionMapnum3==''||this.groupPosition.position1==''||this.groupPosition.position2==''||this.groupPosition.position3=='')
+      {
+         this.$message.error('不能留空哦');
+      }
+      const res4 = await reqGroupPosition(this.groupPosition);
+      console.log("这是职位");
+      console.log(res4);
+      Toast("修改成功");
+       this.editDialogVisible4 = false;
+    },
+    //取消
+    cancel() {
+      this.editDialogVisible1 = false;
+    },
+    cancel2() {
+      this.editDialogVisible2 = false;
+    },
+    cancel3() {
+      this.editDialogVisible3 = false;
+    },
+    cancel4() {
+      this.editDialogVisible4 = false;
+    },
   },
 };
 </script>
@@ -364,28 +672,7 @@ export default {
 <style  scoped>
 .el-input {
   position: relative;
-  width: 250px;
-}
-.icon-container {
-  position: absolute;
-  width: 60px;
-  margin-top: -20px;
-  left: 34%;
-  transform: translateY(-50%);
-  right: 12px;
-}
-
-.icon-container i {
-  display: inline-block;
-  vertical-align: middle;
-  cursor: pointer;
-}
-.icon-container {
-  display: block;
-  width: 60px;
-}
-.el-form-item:hover .icon-container {
-  display: block;
+  width: 120px;
 }
 
 .elmbc {
@@ -400,5 +687,25 @@ export default {
 }
 h2 {
   color: #409eff;
+}
+.box1 {
+  position: relative;
+  margin-bottom: 18px;
+}
+.but1 {
+  position: absolute;
+  margin-left: 180px;
+  width: 50px;
+  height: 30px;
+  padding: 10px;
+  margin-top: -33px;
+}
+.el-form-item__label {
+  top: 20px;
+}
+.dialog {
+  width: 1000px;
+  height: 800px;
+  margin-left: 300px;
 }
 </style>
