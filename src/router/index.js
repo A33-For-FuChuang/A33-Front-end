@@ -45,15 +45,27 @@ const routes = [
         name: '个人偏好',
         component: () => import("@/views/Rule/preference.vue"),
       },
+   
+    ],
+  },
+  {
+    path: "/rule",
+    component: () => import("@/layouts/admin.vue"),
+    children: [
       {
-        path: "shoprule",
-        name: '系统规则',
-        component: () => import("@/views/Rule/shoprule.vue"),
+        path: "custom",
+        name: '自定义规则',
+        component: () => import("@/views/Rule/customRule.vue"),
       },
       {
-        path: "bussrule",
-        name: '自定义规则',
-        component: () => import("@/views/Rule/businessrule.vue"),
+        path: "hobby",
+        name: '员工偏好',
+        component: () => import("@/views/Rule/preference.vue"),
+      },
+      {
+        path: "system",
+        name: '系统规则',
+        component: () => import("@/views/Rule/systemRule.vue"),
       },
     ],
   },

@@ -131,7 +131,7 @@
    
        
   </div>
-   <div v-else class="empty"><el-empty description="暂无信息"></el-empty></div>
+   <div v-else class="empty"><el-empty description="暂时没有权限查看该页面"></el-empty></div>
 </template>
 <script>
 import { employeeinfo } from "../../api/employee";

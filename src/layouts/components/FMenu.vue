@@ -8,13 +8,13 @@
       :collapse-transition="false"
       router
     >
-      <el-submenu index="7" v-if="true">
+      <el-submenu index="7" v-if="Root">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">商铺信息</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/shop/shopinformation">商铺信息</el-menu-item>
+          <el-menu-item index="/shop/shopinformation">所有商铺</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
@@ -42,8 +42,8 @@
 
         <el-submenu index="1-4" v-if="isRoot">
           <template slot="title">商铺规则</template>
-          <el-menu-item index="/home/bussrule">自定义规则</el-menu-item>
-          <el-menu-item index="/home/shoprule">系统规则</el-menu-item>
+          <el-menu-item index="/rule/custom">自定义规则</el-menu-item>
+          <el-menu-item index="/rule/system">系统规则</el-menu-item>
         </el-submenu>
       </el-submenu>
       <el-submenu index="3" v-if="isRoot">
@@ -60,12 +60,13 @@
 </template>
 
 <script>
+import { reqChangeinfo } from "../../api/employee";
 
 export default {
   data() {
     return {
-      isRoot: true,
-       position:''
+      Root: false,
+      isRoot: false,
     };
   },
   created() {
@@ -77,19 +78,24 @@ export default {
     },
   },
   methods: {
-    showposition() {
-      // this.$store.state
-      // console.log("hhhhhhhhhhhhhhhhhhhhh")
-      // console.log(this.$store.state.user)
-      // if(this.position=="root")
-      // {
-      //   this.isRoot=false;
-      // }
-      // else
-      // {
-      //   this.isRoot=true;
-      // }
-   
+    async showposition() {
+      //为root用户,root用户不是申请的，内容为underfine
+      //await关键字，以确保在获取完数据之前不会执行下一步操作
+      await this.$store.dispatch("getInfo");
+      const position = this.$store.state.user.userInfo;
+     
+
+      console.log(this.$store.state.user.userInfo);
+
+      console.log(this.$store.state.user);
+      if (typeof position === "undefined") {
+        this.isRoot = false;
+        this.Root = true;
+      } else {
+        console.log("不是root用户");
+        this.isRoot = true;
+        this.Root == false;
+      }
     },
   },
 };
