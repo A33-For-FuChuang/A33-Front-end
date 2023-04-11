@@ -188,7 +188,16 @@ export default {
           this.$store.commit("setToken", res.data.token);
           this.$store.dispatch("getInfo");
           Toast("登录成功");
-          this.$router.push("/home/employee");
+          if(res.data.position=="root")
+          {
+             this.$router.push("/shop/shopinformation");
+            
+          }
+          else
+          {
+               this.$router.push("/home/employee");
+          }
+         
         } else {
           Toast(res.message, "error");
         }

@@ -8,7 +8,17 @@
       :collapse-transition="false"
       router
     >
-      <el-submenu index="1">
+      <el-submenu index="7" v-if="true">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span slot="title">商铺信息</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/shop/shopinformation">商铺信息</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+
+      <el-submenu index="1" v-if="isRoot">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">员工信息</span>
@@ -21,7 +31,7 @@
         </el-menu-item-group>
       </el-submenu>
 
-      <el-submenu index="2">
+      <el-submenu index="2" v-if="isRoot">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">排班规则</span>
@@ -29,18 +39,14 @@
         <el-menu-item-group>
           <el-menu-item index="/home/rule">员工偏好</el-menu-item>
         </el-menu-item-group>
-        <!-- <el-menu-item-group>
-          <el-menu-item index="/home/shoprule">商铺规则</el-menu-item>
-        </el-menu-item-group> -->
-        
-      
-         <el-submenu index="1-4">
+
+        <el-submenu index="1-4" v-if="isRoot">
           <template slot="title">商铺规则</template>
           <el-menu-item index="/home/bussrule">自定义规则</el-menu-item>
           <el-menu-item index="/home/shoprule">系统规则</el-menu-item>
         </el-submenu>
       </el-submenu>
-      <el-submenu index="3">
+      <el-submenu index="3" v-if="isRoot">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">排班信息</span>
@@ -54,18 +60,38 @@
 </template>
 
 <script>
-import { employeeinfo } from "../../api/employee";
 
 export default {
   data() {
-    return {};
+    return {
+      isRoot: true,
+       position:''
+    };
+  },
+  created() {
+    this.showposition();
   },
   computed: {
     isCollapse() {
       return !(this.$store.state.common.asideWidth == "250px");
     },
   },
-  methods: {},
+  methods: {
+    showposition() {
+      // this.$store.state
+      // console.log("hhhhhhhhhhhhhhhhhhhhh")
+      // console.log(this.$store.state.user)
+      // if(this.position=="root")
+      // {
+      //   this.isRoot=false;
+      // }
+      // else
+      // {
+      //   this.isRoot=true;
+      // }
+   
+    },
+  },
 };
 </script>
 

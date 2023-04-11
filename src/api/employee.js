@@ -35,7 +35,7 @@ export const reqChangeinfo = (data) =>
       email: data.email,
       phone: data.phone,
     },
-    method: "put",
+    method: "post",
   });
 
 //所有成员信息接口
