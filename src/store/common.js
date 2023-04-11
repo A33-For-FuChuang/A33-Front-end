@@ -6,7 +6,10 @@ const state = {
     },
   ],
   asideWidth: "250px",
-  isPublic:true
+  isPublic:true,
+  weekWork:[],
+  isTableLoad:false,
+  dates:[]
 };
 
 const mutations = {
@@ -24,6 +27,15 @@ const mutations = {
   },
   setIsPublicFalse(state) {
     state.isPublic=state.isPublic=false
+  },
+  setWeekWork(state,data) {
+    state.weekWork=data;
+  },
+  setTableLoad(state) {
+    state.isTableLoad=!state.isTableLoad
+  },
+  setDates(state,data) {
+    state.dates=data;
   }
 };
 

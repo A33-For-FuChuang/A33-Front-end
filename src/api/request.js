@@ -17,7 +17,7 @@ const request = axios.create({
   // 基础路径：发请求的时候，路径中会出现api
   baseURL: process.env.VUE_APP_BASE_URL,
   // 代表请求超时的时间5s
-  timeout: 7000,
+  timeout: 600000,
 });
 
 // request 拦截器

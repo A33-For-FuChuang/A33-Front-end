@@ -73,3 +73,16 @@ export const reqGetStock=(localDateTime)=>request({
   method:"get"
 })
 
+// 展示备份数据
+export const reqShowCopy=(localDateTime)=>request({
+  url:"/A33/location/showCopy",
+  params:{localDateTime},
+  method:"get"
+})
+
+// 恢复备份数据
+export const reqRestoreCopy=()=>request({
+  url:"/A33/location/restoreCopy",
+  method:"get"
+})
+

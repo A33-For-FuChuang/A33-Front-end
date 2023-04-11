@@ -1,5 +1,5 @@
 <template>
-  <div class="main" v-loading="loading" >
+  <div class="main" v-loading="isTableLoad" >
     <div class="table-wrap" >
       <div class="head-style"  >
         <dl class="table-tr">
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import {  getWeek, transformTime } from "../composables/utils";
+import {  getWeek, transformTime,removeDuplicate } from "../composables/utils";
 import { getDateKey } from "@/composables/auth";
 import {
   reqGetWeekWork,
@@ -78,10 +78,9 @@ import {reqSchedule} from "@/api/scheduling"
 export default {
   data() {
     return {
-      weekWork: [],
       dates: [],
       week: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-      time:["09:00","10:00","11:00","12:00","13:00","14:00","15:00"],
+      time:["09:00-11:00","11:00-13:00","13:00-15:00","15:00-17:00","17:00-19:00","19:00-21:00"],
       today: "",
       loading: false,
       groupId: "",
@@ -91,15 +90,23 @@ export default {
       clickDate: "",
     };
   },
+  computed:{
+    weekWork() {
+      return this.$store.state.common.weekWork || [];
+    },
+    isTableLoad() {
+      return this.$store.state.common.isTableLoad;
+    }
+  },
   methods: {
     getData(res, date) {
       const { data } = res;
       for (let i = 0; i < data.length; i++) {
         for (let j = 0; j < data[i].length; j++) {
-          this.removeDuplicate(data[i][j]);
+          removeDuplicate(data[i][j]);
         }
       }
-      this.weekWork = data;
+      this.$store.commit('setWeekWork', data)
       const formattedDate = transformTime(date);
       this.dates = getWeek(formattedDate);
     },
@@ -108,84 +115,71 @@ export default {
       this.tableData = data;
       this.dialogVisible = true;
     },
-    // 去重
-    removeDuplicate(arr) {
-      let len = arr.length;
-      for (let i = 0; i < len; i++) {
-        for (let j = i + 1; j < len; j++) {
-          if (arr[i].employeeID === arr[j].employeeID) {
-            arr.splice(j, 1);
-            len--; // 减少循环次数提高性能
-            j--; // 保证j的值自加后不变
-          }
-        }
-      }
-      return arr;
-    },
     async getAllData() {
-      this.loading = true;
+      this.$store.commit('setTableLoad')
       const date = getDateKey();
       const res = await reqGetWeekWork(date);
       if (res.state == 200) {
         this.getData(res, date);
+        this.$store.commit('setTableLoad')
       }
-      this.loading = false;
     },
     async getPersonData() {
-      this.loading = true;
+      this.$store.commit('setTableLoad')
       const date = getDateKey();
       const res = await reqGetWeekLocations(date);
       if (res.state == 200) {
         this.getData(res, date);
+        this.$store.commit('setTableLoad')
       }
-      this.loading = false;
     },
     async getGroupWork() {
-      this.loading = true;
+      this.$store.commit('setTableLoad')
       const date = getDateKey();
       const res = await reqGetGroupWork(date, this.groupId);
       if (res.state == 200) {
         this.getData(res, date);
+        this.$store.commit('setTableLoad')
       }
-      this.loading = false;
     },
     async getPositionWork() {
-      this.loading = true;
+      this.$store.commit('setTableLoad')
       const date = getDateKey();
       const res = await reqGetPositionWork(date, this.position);
       if (res.state == 200) {
         this.getData(res, date);
+        this.$store.commit('setTableLoad')
       }
-      this.loading = false;
     },
     async getStockPerson() {
-      this.loading = true;
+      this.$store.commit('setTableLoad')
       const date = getDateKey();
       const res = await reqGetStock(date);
       if (res.state == 200) {
-        
+        console.log(res);
+        this.$store.commit('setTableLoad')
       }
-      this.loading = false;
     },
     async getSchedule() {
-      this.loading = true;
+      this.$store.commit('setTableLoad')
       const date = getDateKey();
       const res = await reqSchedule(date);
       if (res.state == 200) {
         // this.getData(res, date);
         console.log(res);
+        this.$store.commit('setTableLoad')
       }
-      this.loading = false;
     },
     async getFreeWorker(){
-      this.loading = true;
+      this.$store.commit('setTableLoad')
       const date = getDateKey();
       const res = await reqShowFreeWorker();
       if (res.state == 200) {
         // this.getData(res, date);
         console.log(res);
+        this.$store.commit('setTableLoad')
       }
-      this.loading = false;
+      
     },
     onEvent() {
       this.$bus.$on("groupWork", (id) => {
@@ -221,7 +215,7 @@ export default {
   created() {
     this.onEvent();
     this.getAllData();
-    // this.getStockPerson()
+    this.getStockPerson()
     // this.getSchedule()
     // this.getFreeWorker()
   },

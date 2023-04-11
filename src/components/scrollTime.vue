@@ -25,8 +25,10 @@
 </template>
 
 <script>
+import {reqGetWeekWork,reqGetWeekLocations} from "@/api/location"
 import { setDateKey } from "@/composables/auth";
-import { formatDate } from "../composables/utils";
+import { formatDate,removeDuplicate,transformTime } from "../composables/utils";
+import { getDateKey } from '../composables/auth';
 export default {
   props: {
     times:{
@@ -79,6 +81,40 @@ export default {
       date = formatDate(date);
       setDateKey(date);
       this.$bus.$emit("weekWork");
+      // if (this.$store.state.common.isPublic) {
+      //     this.getAllData();
+      //   } else {
+      //     this.getPersonData();
+      //   }
+    },
+    getTable(res,date) {
+      const { data } = res;
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].length; j++) {
+          removeDuplicate(data[i][j]);
+        }
+      }
+      this.$store.commit('setWeekWork', data)
+      const formattedDate = transformTime(date);
+      this.$store.commit('setDates', formattedDate)
+    },
+    async getAllData() {
+      this.$store.commit('setTableLoad')
+      const date = getDateKey();
+      const res = await reqGetWeekWork(date);
+      if (res.state == 200) {
+        this.getTable(res,date);
+        this.$store.commit('setTableLoad')
+      }
+    },
+    async getPersonData() {
+      this.$store.commit('setTableLoad')
+      const date = getDateKey();
+      const res = await reqGetWeekLocations(date);
+      if (res.state == 200) {
+        this.getTable(res,date);
+      }
+      this.$store.commit('setTableLoad')
     },
   },
   created() {

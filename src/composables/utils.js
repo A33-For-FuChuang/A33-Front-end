@@ -76,3 +76,17 @@ export function transformTime(dateString) {
   var chineseTime = new Date(chineseTimeStamp);
   return chineseTime;
 }
+
+export function removeDuplicate(arr) {
+  let len = arr.length;
+  for (let i = 0; i < len; i++) {
+    for (let j = i + 1; j < len; j++) {
+      if (arr[i].employeeID === arr[j].employeeID) {
+        arr.splice(j, 1);
+        len--; // 减少循环次数提高性能
+        j--; // 保证j的值自加后不变
+      }
+    }
+  }
+  return arr;
+}

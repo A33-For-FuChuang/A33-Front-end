@@ -29,10 +29,7 @@
     </div>
     <div class="time">
       <conditionalSearch></conditionalSearch>
-      <div style="margin-left: auto">
-        <el-button type="danger" size="medium ">删除</el-button>
-        <el-button type="warning" size="medium ">编辑</el-button>
-      </div>
+      <scheduleBtn></scheduleBtn>
     </div>
       <scheduleTable v-permission="['/location/week']"></scheduleTable>
   </div>
@@ -43,12 +40,13 @@ import { reqThreeMonthes,reqTest } from "@/api/location";
 import scrollTime from "@/components/scrollTime.vue";
 import scheduleTable from "@/components/scheduleTable.vue";
 import conditionalSearch from "@/components/conditionalSearch";
-import axios from 'axios';
+import scheduleBtn from '@/components/scheduleBtn'
 export default {
   components: {
     scrollTime,
     scheduleTable,
     conditionalSearch,
+    scheduleBtn
   },
   data() {
     return {
