@@ -25,11 +25,15 @@
 </template>
 
 <script>
-import { reqGetWeekWork } from "@/api/location";
 import { setDateKey } from "@/composables/auth";
 import { formatDate } from "../composables/utils";
 export default {
-  props: ["times"],
+  props: {
+    times:{
+      type:Array,
+      default:()=>[]
+    }
+  },
   data() {
     return {
       posIndex: 12,
@@ -77,8 +81,11 @@ export default {
       this.$bus.$emit("weekWork");
     },
   },
-  mounted() {
+  created() {
     this.getData();
+  },
+  mounted() {
+    
     this.transform();
     setTimeout(() => {
       const li = this.$refs.items[this.posIndex + 1].style;

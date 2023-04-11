@@ -59,3 +59,17 @@ export const reqGetDayLocations = (dateTimeWeek) =>
     params: { dateTimeWeek },
     method: "get",
   });
+
+// 展示所有的空闲员工
+export const reqShowFreeWorker=()=>request({
+  url:"/A33/location/showFree",
+  method:"get"
+})
+
+// 展示需要参与进货的店员
+export const reqGetStock=(localDateTime)=>request({
+  url:"/A33/location/stock",
+  params:{localDateTime},
+  method:"get"
+})
+

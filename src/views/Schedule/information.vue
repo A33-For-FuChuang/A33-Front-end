@@ -1,53 +1,54 @@
 <template>
   <div class="main">
-      <div class="select">
-        <el-select v-model="value" placeholder="某门店排班表">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+    <div class="select" >
+      <el-select v-model="value" placeholder="某门店排班表">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    </div>
+    <div class="time">
+      <div class="left">
+        <div style="color: rgb(134, 134, 134)">{{ nowTime }}</div>
+        <div class="isWeek">
+          <el-switch
+            v-model="isWeek"
+            active-text="按周查看"
+            inactive-text="按日查看"
           >
-          </el-option>
-        </el-select>
-      </div>
-      <div class="time">
-        <div class="left">
-          <div style="color: rgb(134, 134, 134)">{{ nowTime }}</div>
-          <div class="isWeek">
-            <el-switch
-              v-model="isWeek"
-              active-text="按周查看"
-              inactive-text="按日查看"
-            >
-            </el-switch>
-          </div>
-        </div>
-        <div class="right">
-          <scrollTime :times="times"></scrollTime>
+          </el-switch>
         </div>
       </div>
-      <div class="time">
-        <conditionalSearch></conditionalSearch>
-        <div style="margin-left: auto">
-          <el-button type="danger" size="medium ">删除</el-button>
-          <el-button type="warning" size="medium ">编辑</el-button>
-        </div>
+      <div class="right" >
+        <scrollTime :times="times"></scrollTime>
       </div>
-      <scheduleTable></scheduleTable>
+    </div>
+    <div class="time">
+      <conditionalSearch></conditionalSearch>
+      <div style="margin-left: auto">
+        <el-button type="danger" size="medium ">删除</el-button>
+        <el-button type="warning" size="medium ">编辑</el-button>
+      </div>
+    </div>
+      <scheduleTable v-permission="['/location/week']"></scheduleTable>
   </div>
 </template>
 
 <script>
-import { reqThreeMonthes } from "@/api/location";
+import { reqThreeMonthes,reqTest } from "@/api/location";
 import scrollTime from "@/components/scrollTime.vue";
 import scheduleTable from "@/components/scheduleTable.vue";
-import conditionalSearch from '@/components/conditionalSearch'
+import conditionalSearch from "@/components/conditionalSearch";
+import axios from 'axios';
 export default {
   components: {
     scrollTime,
     scheduleTable,
-    conditionalSearch
+    conditionalSearch,
   },
   data() {
     return {
@@ -91,7 +92,7 @@ export default {
             .slice(0, 10);
           this.times[i].weekEnd = weekEnd;
         }
-        this.$store.commit('setTimes', this.times)
+        this.$store.commit("setTimes", this.times);
       }
     },
   },

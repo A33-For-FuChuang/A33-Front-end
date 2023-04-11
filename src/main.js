@@ -6,10 +6,12 @@ import request from '@/api/request'
 import './assets/css/gloable.css'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import permission from '@/directives/permission'
 
 Vue.config.productionTip = false
 Vue.prototype.request=request
 Vue.use(ElementUI);
+Vue.use(permission)
 
 new Vue({
   router,

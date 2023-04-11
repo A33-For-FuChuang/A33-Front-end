@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>员工信息</h2>
-    <el-table :data="form" v-if="form.length > 0">
+    <el-table :data="table" v-if="table.length > 0">
       <el-table-column prop="name" label="姓名">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -33,14 +33,38 @@
           <el-button type="primary" @click="editRule(scope.row)"
             >编辑</el-button
           >
-       
         </template>
       </el-table-column>
     </el-table>
     <div v-else>暂无数据</div>
+
+    <el-dialog title="员工信息" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="邮箱" :label-width="formLabelWidth">
+          <el-input v-model="form.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="组名" :label-width="formLabelWidth">
+          <el-input v-model="form.groupName" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="职位" :label-width="formLabelWidth">
+          <el-input v-model="form.position" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="店名" :label-width="formLabelWidth">
+          <el-input v-model="form.shopName" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false"
+          >确 定</el-button
+        >
+      </div>
+    </el-dialog>
   </div>
 </template>
-
 
 <script>
 import { employeeinfo, employeechange, allemployee } from "../../api/employee";
@@ -48,8 +72,11 @@ import { employeeinfo, employeechange, allemployee } from "../../api/employee";
 export default {
   data() {
     return {
-      form: [],
+      table: [],
+      form: {},
       currentUser: { position: "导购", group: "A" },
+      dialogFormVisible: false,
+      formLabelWidth: '120px'
     };
   },
   created() {
@@ -57,21 +84,17 @@ export default {
   },
   methods: {
     async fetchData() {
-      
       const res = await allemployee();
       const res2 = await employeeinfo();
       const people = res.data;
-    this.form=res.data;
+      this.table = res.data;
       console.log("这是成员信息界面");
       console.log(res);
-
-      // if (res2.data.position === "店长") {
-      //   this.form = people;
-      // } else if (res2.data.position === "组长") {
-      //   this.form = people.filter((item) => item.position === "小组长");
-      // } else {
-      //   this.form = people.filter((item) => item.name);
-      // }
+    },
+    editRule(data) {
+      console.log(data);
+      this.dialogFormVisible = true;
+      this.form = data;
     },
   },
 };

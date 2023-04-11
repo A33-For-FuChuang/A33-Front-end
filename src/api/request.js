@@ -59,6 +59,7 @@ request.interceptors.response.use(
         type: "error",
       });
       removeToken();
+      // router.push('/login')
     }
     return res;
   },
