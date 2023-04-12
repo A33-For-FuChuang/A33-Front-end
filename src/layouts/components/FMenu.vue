@@ -85,14 +85,14 @@ export default {
       const position = this.$store.state.user.userInfo;
      
 
-      console.log(this.$store.state.user.userInfo);
+  
 
-      console.log(this.$store.state.user);
+
       if (typeof position === "undefined") {
         this.isRoot = false;
         this.Root = true;
       } else {
-        console.log("不是root用户");
+       
         this.isRoot = true;
         this.Root == false;
       }

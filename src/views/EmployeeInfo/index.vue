@@ -18,10 +18,16 @@
         {{ form.groupName }}
       </el-descriptions-item>
 
-      <el-descriptions-item label="工作日偏好">{{workDayStr}}</el-descriptions-item>
-      <el-descriptions-item label="工作时间偏好"> </el-descriptions-item>
+      <el-descriptions-item label="工作日偏好">{{
+        workDayStr
+      }}</el-descriptions-item>
+      <el-descriptions-item label="工作时间偏好">{{
+        workTimestr
+      }}</el-descriptions-item>
 
-      <el-descriptions-item label="班次时间偏好/h">{{this.lastTime}}</el-descriptions-item>
+      <el-descriptions-item label="班次时间偏好/h">{{
+        this.lastTime
+      }}</el-descriptions-item>
     </el-descriptions>
 
     <br />
@@ -48,6 +54,7 @@
 
 <script>
 import { employeeinfo, reqChangeinfo } from "../../api/employee";
+import { reqShowEmployeeRole } from "../../api/employeeRole";
 import { Toast, resetObj } from "../../composables/utils";
 
 export default {
@@ -61,11 +68,13 @@ export default {
         email: "",
       },
       //工作日
-      workDay:[],
-      workDayStr:'',
+      workDay: [],
+      workDayStr: "",
       //班次时间
-      lastTime:'',
+      lastTime: "",
       //工作时间
+      workTime: [],
+      workTimestr: "",
       editDialogVisible: false,
     };
   },
@@ -82,18 +91,22 @@ export default {
       console.log(this.form);
       console.log("个人信息页面");
       console.log(res);
-      const respone=this.form.employeeWorkDayDTO?.employeeWorkDayList;
-      this.workDay.push(respone[0])
-      this.workDay.push(respone[1])
-      this.workDayStr=this.workDay.join(',')
-      console.log("偏好")
-      console.log(this.workDayStr)
-      const lastTime=this.form.employeeLastTimeDTO;
-      this.lastTime=lastTime.lastTime;
-      console.log("班次时间")
-      console.log(this.lastTime)
+      const respone = this.form.employeeWorkDayDTO?.employeeWorkDayList;
+      this.workDay.push(respone[0]);
+      this.workDay.push(respone[1]);
+      this.workDayStr = this.workDay.join(",");
 
-      
+      const lastTime = this.form.employeeLastTimeDTO;
+      this.lastTime = lastTime.lastTime;
+
+      const res2 = await reqShowEmployeeRole();
+      const workTime = res2.data.employeeWorkTimeDTO.employeeWorkTimeList;
+      this.workTime.push(workTime[0]);
+      this.workTime.push(workTime[1]);
+
+      this.workTimestr = this.workTime.join(",");
+
+      return this.workTimestr;
     },
     async submitForm() {
       this.adddata.phone = this.form.phone;
