@@ -55,6 +55,15 @@
           <el-menu-item index="/schedule/information">排班信息</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+       <el-submenu index="4" v-if="isRoot">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span slot="title">排班模板</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/template/name">模板展示</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
     </el-menu>
   </div>
 </template>

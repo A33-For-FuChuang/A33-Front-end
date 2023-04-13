@@ -23,7 +23,7 @@ const routes = [
     children: [
       {
         path: "user",
-        component: () => import("@/views/Home/user.vue"),
+        component: () => import("@/views/Home/User.vue"),
       },
       {
         path: "shop",
@@ -67,6 +67,23 @@ const routes = [
         name: '系统规则',
         component: () => import("@/views/Rule/systemRule.vue"),
       },
+    ],
+  },
+  {
+    path: "/template",
+    component: () => import("@/layouts/admin.vue"),
+    children: [
+      {
+        path: "name",
+        name: '模板展示',
+        component: () => import("@/views/Template/templateName.vue"),
+      },
+      {
+        path: "show",
+        name: '模板展示',
+        component: () => import("@/views/Template/showTemplate.vue"),
+      },
+  
     ],
   },
   // {

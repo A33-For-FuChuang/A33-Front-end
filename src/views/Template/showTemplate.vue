@@ -1,0 +1,215 @@
+<template>
+  <div class="main" v-loading="isTableLoad">
+    <div class="table-wrap">
+      <div class="head-style">
+        <dl class="table-tr">
+          <dd>
+            <span>时间</span>
+          </dd>
+          <dd v-for="item in time" :key="item">
+            <span>{{ item }}</span>
+          </dd>
+        </dl>
+      </div>
+      <div class="head-style">
+        <dl class="table-tr" v-for="(item, index) in week2" :key="index">
+          <div>
+            <dd>{{ dates[index] }}</dd>
+            <dd>{{ week[index] }}</dd>
+          </div>
+
+          <dd v-for="(dd, i) in item" :key="dd.locationID">
+            <el-button
+              v-if="dd.length > 1"
+              type="primary"
+              @click="getAll(dd, i)"
+              >查看所有</el-button
+            >
+            <div v-else>
+              <span>{{ dd[0]?.name }}</span>
+              <div>{{ dd[0]?.position }}</div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <el-dialog :title="clickDate" :visible.sync="dialogVisible" width="30%">
+      <span>
+        <el-table :data="tableData" height="450" border style="width: 100%">
+          <el-table-column
+            prop="employeeID"
+            label="职员id"
+            width="140"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="position"
+            label="职位"
+            width="160"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column prop="name" label="姓名" align="center" width="160">
+          </el-table-column>
+        </el-table>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false" type="primary"
+          >关 闭</el-button
+        >
+      </span>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import {
+  getWeek,
+  transformTime,
+  removeDuplicate,
+} from "../../composables/utils";
+import { getDateKey } from "../../composables/auth";
+import {
+  reqGetWeekWork,
+  reqGetWeekLocations,
+  reqGetGroupWork,
+  reqGetPositionWork,
+  reqShowFreeWorker,
+  reqGetStock,
+} from "@/api/location";
+import { reqSchedule } from "@/api/scheduling";
+import { reqStartTemplate, reqShowTeplate } from "../../api/template";
+
+export default {
+  data() {
+    return {
+      dates: [],
+      week: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+      time: [
+        "09:00-11:00",
+        "11:00-13:00",
+        "13:00-15:00",
+        "15:00-17:00",
+        "17:00-19:00",
+        "19:00-21:00",
+      ],
+      today: "",
+      loading: false,
+      groupId: "",
+      position: "",
+      dialogVisible: false,
+      tableData: [],
+      clickDate: "",
+      week2: [],
+    };
+  },
+
+  computed: {
+    weekWork() {
+      return this.$store.state.common.weekWork || [];
+    },
+    isTableLoad() {
+      return this.$store.state.common.isTableLoad;
+    },
+  },
+  methods: {
+    async showdetail() {
+      console.log("*****************************");
+      console.log("这是细节", this.$route.query.name);
+      const resdetail = await reqShowTeplate(this.$route.query.name);
+      console.log("这是细节展示", resdetail.data);
+      const l = Object.keys(resdetail.data).length;
+      console.log(l);
+      for (let i = 0; i < l; i++) {
+        this.week2.push(resdetail.data[i]);
+      }
+     
+      console.log("这是week", this.week2);
+
+      return this.week2;
+    },
+    getData(res, date) {
+      const { data } = res;
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].length; j++) {
+          removeDuplicate(data[i][j]);
+        }
+      }
+      this.$store.commit("setWeekWork", data);
+      const formattedDate = transformTime(date);
+      this.dates = getWeek(formattedDate);
+    },
+    getAll(data, index) {
+      this.clickDate = this.dates[index] + "-" + this.week[index];
+      this.tableData = data;
+      this.dialogVisible = true;
+    },
+
+    async getAllData() {
+      this.$store.commit("setTableLoad");
+      const date = getDateKey();
+      const res = await reqGetWeekWork(date);
+      if (res.state == 200) {
+        this.getData(res, date);
+        this.$store.commit("setTableLoad");
+      }
+    },
+
+    onEvent() {
+      this.$bus.$on("groupWork", (id) => {
+        if (id == "") {
+          this.getAllData();
+        } else {
+          this.groupId = id;
+          this.getGroupWork();
+        }
+      });
+    },
+  },
+  created() {
+    this.showdetail();
+    this.onEvent();
+    this.getAllData();
+
+    // this.getSchedule()
+    // this.getFreeWorker()
+  },
+};
+</script>
+
+<style scoped lang="less">
+.main {
+  margin-top: 20px;
+}
+.table-wrap {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  .head-style {
+    display: table-header-group;
+    .table-tr {
+      display: table-row;
+      dd {
+        display: table-cell;
+        text-align: center;
+        height: 50px;
+        width: 120px;
+        vertical-align: middle;
+        // border-bottom: 1px solid #ddd;
+        // border-right: 1px solid #ddd;
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+      }
+    }
+  }
+}
+table {
+  table-layout: fixed;
+}
+td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
