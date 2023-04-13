@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-select
-      size="small"
+      class="elSelWidth"
       @change="handleChange"
       clearable
       v-model="groupId"
@@ -17,8 +17,8 @@
       </el-option>
     </el-select>
     <el-select
+      class="elSelWidth"
       style="margin-left: 20px"
-      size="small"
       @change="handleChangePosition"
       clearable
       v-model="position"
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { reqGetAllGroup, reqGetPositions } from "@/api/location";
+import { reqAllGroup, reqGetPositions } from "@/api/location";
 export default {
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     async getAllGroup() {
-      const res = await reqGetAllGroup();
+      const res = await reqAllGroup();
       if (res.state == 200) {
         this.groupAll = res.data;
       }
@@ -116,4 +116,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.elSelWidth{
+  width: 150px;
+}
+</style>

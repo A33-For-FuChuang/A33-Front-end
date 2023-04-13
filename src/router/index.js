@@ -23,7 +23,7 @@ const routes = [
     children: [
       {
         path: "user",
-        component: () => import("@/views/Home/User.vue"),
+        component: () => import("@/views/Home/user.vue"),
       },
       {
         path: "shop",
@@ -157,8 +157,10 @@ router.beforeEach((to, from, next) => {
     Toast("请先退出登录", "warning");
     return next({ path: from.path ? from.path : "/" });
   }
+  // 获取用户信息
   if (token) {
     store.dispatch("getInfo")
+    
   }
   next();
 });

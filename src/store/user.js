@@ -1,4 +1,5 @@
 import { reqUserInfo } from "../api/employee";
+import cookies from "vue-cookies";
 import {setToken,removeToken,removeDateKey} from "../composables/auth"
 
 const state = {
@@ -9,6 +10,8 @@ const state = {
 const mutations = {
   setUser(state, res) {
     state.userInfo = res.data;
+    // localStorage.setItem("authorities",state.userInfo.authorities)
+    cookies.set('authorities',state.userInfo.authorities)
   },
   setToken(state, token) {
     state.userInfo.token = token;
@@ -21,6 +24,7 @@ const mutations = {
     state.userInfo = data;
     removeDateKey()
     removeToken()
+    cookies.remove('authorities')
   },
 };
 

@@ -1,16 +1,5 @@
 <template>
   <div class="main">
-    <div class="select" >
-      <el-select v-model="value" placeholder="某门店排班表">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-    </div>
     <div class="time">
       <div class="left">
         <div style="color: rgb(134, 134, 134)">{{ nowTime }}</div>
@@ -27,9 +16,9 @@
         <scrollTime :times="times"></scrollTime>
       </div>
     </div>
-    <div class="time">
-      <conditionalSearch></conditionalSearch>
-      <scheduleBtn></scheduleBtn>
+    <div class="searchCondition">
+      <div><conditionalSearch></conditionalSearch></div>
+      <div style="margin-top:20px"><scheduleBtn></scheduleBtn></div>
     </div>
       <scheduleTable v-permission="['/location/week']"></scheduleTable>
   </div>
@@ -54,28 +43,6 @@ export default {
       value: "",
       isWeek: true,
       times: [],
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕",
-        },
-        {
-          value: "选项2",
-          label: "双皮奶",
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎",
-        },
-        {
-          value: "选项4",
-          label: "龙须面",
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭",
-        },
-      ],
     };
   },
   methods: {
@@ -113,6 +80,9 @@ export default {
   margin-top: 20px;
   display: flex;
   align-items: center;
+}
+.searchCondition {
+  margin-top: 20px;
 }
 .left {
   /* width: 100px; */

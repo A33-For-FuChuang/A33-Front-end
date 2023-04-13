@@ -39,11 +39,13 @@ export function getWeek(today = new Date()) {
   // 创建星期一到星期日的日期数组
   const daysOfWeek = [];
   for (let date = monday; date <= sunday; date.setDate(date.getDate() + 1)) {
+    let dateStr =new Date(date).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+    })
+    dateStr = dateStr.replace(/\//g, "-");
     daysOfWeek.push(
-      new Date(date).toLocaleDateString("en-US", {
-        month: "2-digit",
-        day: "2-digit",
-      })
+      dateStr
     );
   }
   return daysOfWeek;
@@ -89,4 +91,29 @@ export function removeDuplicate(arr) {
     }
   }
   return arr;
+}
+
+// 求出yyyy-mm--dd所在那一周的周一和周日
+export function getMondayAndSunday(date) {
+  date = new Date(date)
+  const dayOfWeek = date.getDay();
+  const diffMonday = date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+  const monday = new Date(date.setDate(diffMonday)).toISOString().slice(0, 10);
+  const sunday = new Date(date.setDate(diffMonday + 6)).toISOString().slice(0, 10);
+  return {
+    monday,
+    sunday
+  };
+}
+
+// 求出yyyy-mm--dd所在那一周的周一
+export function getMondayOfWeek(dateString) {
+  const date = new Date(dateString); // 将传入的日期字符串转换为 Date 对象
+  const day = date.getDay(); // 获取星期几，0 表示星期日，1 表示星期一，以此类推
+  const diff = date.getDate() - day + (day === 0 ? -6 : 1); // 计算这一周的周一日期
+  const monday = new Date(date.setDate(diff)); // 转换为 Date 对象
+  const year = monday.getFullYear(); // 获取年份
+  const month = String(monday.getMonth() + 1).padStart(2, '0'); // 获取月份，并补齐为两位数字
+  const dayOfMonth = String(monday.getDate()).padStart(2, '0'); // 获取日期，并补齐为两位数字
+  return `${year}-${month}-${dayOfMonth}`; // 拼接为字符串并返回
 }

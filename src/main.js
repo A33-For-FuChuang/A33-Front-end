@@ -7,11 +7,13 @@ import './assets/css/gloable.css'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import permission from '@/directives/permission'
+import VueCookies from "vue-cookies";
 
 Vue.config.productionTip = false
 Vue.prototype.request=request
 Vue.use(ElementUI);
 Vue.use(permission)
+Vue.use(VueCookies);
 
 new Vue({
   router,

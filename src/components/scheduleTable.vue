@@ -33,16 +33,9 @@
         </dl>
       </div>
     </div>
-    <el-dialog :title="clickDate" :visible.sync="dialogVisible" width="30%">
+    <el-dialog :title="clickDate" :visible.sync="dialogVisible" width="25%">
       <span>
-        <el-table :data="tableData" height="450" border style="width: 100%">
-          <el-table-column
-            prop="employeeID"
-            label="职员id"
-            width="140"
-            align="center"
-          >
-          </el-table-column>
+        <el-table :data="tableData" height="450" border >
           <el-table-column
             prop="position"
             label="职位"
@@ -50,7 +43,7 @@
             align="center"
           >
           </el-table-column>
-          <el-table-column prop="name" label="姓名" align="center" width="160">
+          <el-table-column prop="name" label="姓名" align="center">
           </el-table-column>
         </el-table>
       </span>
@@ -64,14 +57,13 @@
 </template>
 
 <script>
-import {  getWeek, transformTime,removeDuplicate } from "../composables/utils";
+import {  getWeek, transformTime,removeDuplicate,getMondayOfWeek } from "../composables/utils";
 import { getDateKey } from "@/composables/auth";
 import {
   reqGetWeekWork,
   reqGetWeekLocations,
   reqGetGroupWork,
   reqGetPositionWork,
-  reqShowFreeWorker,
   reqGetStock
 } from "@/api/location";
 import {reqSchedule} from "@/api/scheduling"
@@ -111,7 +103,7 @@ export default {
       this.dates = getWeek(formattedDate);
     },
     getAll(data, index) {
-      this.clickDate = this.dates[index] + "-" + this.week[index];
+      this.clickDate = this.dates[index] + "-" + this.week[index]+"-"+this.time[index];
       this.tableData = data;
       this.dialogVisible = true;
     },
@@ -126,7 +118,7 @@ export default {
     },
     async getPersonData() {
       this.$store.commit('setTableLoad')
-      const date = getDateKey();
+      const date = getMondayOfWeek(getDateKey());
       const res = await reqGetWeekLocations(date);
       if (res.state == 200) {
         this.getData(res, date);
@@ -156,7 +148,6 @@ export default {
       const date = getDateKey();
       const res = await reqGetStock(date);
       if (res.state == 200) {
-        console.log(res);
         this.$store.commit('setTableLoad')
       }
     },
@@ -169,17 +160,6 @@ export default {
         console.log(res);
         this.$store.commit('setTableLoad')
       }
-    },
-    async getFreeWorker(){
-      this.$store.commit('setTableLoad')
-      const date = getDateKey();
-      const res = await reqShowFreeWorker();
-      if (res.state == 200) {
-        // this.getData(res, date);
-        console.log(res);
-        this.$store.commit('setTableLoad')
-      }
-      
     },
     onEvent() {
       this.$bus.$on("groupWork", (id) => {
@@ -215,9 +195,8 @@ export default {
   created() {
     this.onEvent();
     this.getAllData();
-    this.getStockPerson()
+    // this.getStockPerson()
     // this.getSchedule()
-    // this.getFreeWorker()
   },
   unmounted() {
     this.offEvent();
