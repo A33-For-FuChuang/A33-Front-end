@@ -1,12 +1,16 @@
 <template>
   <div>
-    <div class="formTime">{{formTime.monday}}--{{formTime.sunday}}</div>
+    <div class="formTime">{{ formTime.monday }}--{{ formTime.sunday }}</div>
     <div>
-      <div style="display:flex">
-        <el-input placeholder="请输入邮箱查询员工排班" style="width:250px;margin-right:20px" v-model="email" clearable
-        ><i slot="prefix" class="el-input__icon el-icon-search"></i
-      ></el-input>
-      <el-button type="primary" @click="getData">搜索</el-button>
+      <div style="display: flex">
+        <el-input
+          placeholder="请输入邮箱查询员工排班"
+          style="width: 250px; margin-right: 20px"
+          v-model="email"
+          clearable
+          ><i slot="prefix" class="el-input__icon el-icon-search"></i
+        ></el-input>
+        <el-button type="primary" @click="getData">搜索</el-button>
       </div>
     </div>
     <div class="main" v-loading="isTableLoad">
@@ -30,19 +34,27 @@
 
             <dd v-for="(dd, y) in item" :key="dd.locationID">
               <div v-if="title == '安排排班'">
-                <div v-if="dd.length>0">
+                <div v-if="dd.length > 0">
                   <el-tag type="success">已排班</el-tag>
                 </div>
-                <el-button v-else type="warning" @click="manage(x, y)">安排</el-button>
+                <el-button v-else type="warning" @click="manage(x, y + 1)"
+                  >安排</el-button
+                >
               </div>
               <div v-else-if="title == '删除排班'">
-                <el-button v-if="dd.length>0" type="danger" @click="manage(x, y)">移除</el-button>
+                <el-button
+                  v-if="dd.length > 0"
+                  type="danger"
+                  @click="manage(x, y + 1)"
+                  >移除</el-button
+                >
                 <div v-else>
                   <el-tag type="success">未排班</el-tag>
                 </div>
               </div>
-              <div v-else-if="title=='搜索排班'">
-                <div>{{dd[0]?.name}}</div>
+              <div v-else-if="title == '搜索排班'">
+                <span>{{ dd[0]?.name }}</span>
+                <div>{{ dd[0]?.position }}</div>
               </div>
             </dd>
           </dl>
@@ -59,7 +71,7 @@ import {
   removeDuplicate,
   Toast,
   getMondayAndSunday,
-  getMondayOfWeek
+  getMondayOfWeek,
 } from "../composables/utils";
 import { getDateKey } from "@/composables/auth";
 import {
@@ -74,19 +86,49 @@ export default {
       type: Array,
     },
     title: {},
-    formTime:{},
+    formTime: {},
   },
   data() {
     return {
       weekWork: [],
       week: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
       time: [
-        "09:00-11:00",
-        "11:00-13:00",
-        "13:00-15:00",
-        "15:00-17:00",
-        "17:00-19:00",
-        "19:00-21:00",
+        "06:00",
+        "06:30",
+        "07:00",
+        "07:30",
+        "08:00",
+        "08:30",
+        "09:00",
+        "09:30",
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00",
+        "18:30",
+        "19:00",
+        "19:30",
+        "20:00",
+        "20:30",
+        "21:00",
+        "21:30",
+        "22:00",
+        "22:30",
+        "23:00",
+        "23:30",
       ],
       tableData: [],
       value: "",
@@ -99,8 +141,8 @@ export default {
       return this.$store.state.common.isTableLoad;
     },
     workWeek() {
-      return getDateKey()
-    }
+      return getDateKey();
+    },
   },
   methods: {
     manage(x, y) {
@@ -109,7 +151,7 @@ export default {
       dateStr += "-";
       dateStr += this.dates[x];
       dateStr += "_";
-      dateStr += 4 * y + 3 < 10 ? "0" + (4 * y + 3) : 4 * y + 3;
+      dateStr += y < 10 ? "0" + y : y;
       this.dateStr = dateStr;
       if (this.title == "安排排班") {
         this.manageWork();
@@ -117,7 +159,7 @@ export default {
         this.deleteWork();
       }
     },
-    
+
     async getData() {
       const date = getMondayOfWeek(getDateKey());
       const res = await reqSearchWork(date, this.email);
@@ -126,32 +168,33 @@ export default {
       }
     },
     async manageWork() {
-      const res=await reqManageWork(this.email,this.dateStr)
-      if(res.state==200) {
-        this.getData()
-        Toast("安排成功")
+      const res = await reqManageWork(this.email, this.dateStr);
+      if (res.state == 200) {
+        this.getData();
+        Toast("安排成功");
       }
     },
     async deleteWork() {
-      const res=await reqDelWork(this.email,this.dateStr)
-      if(res.state==200) {
-        this.getData()
-        Toast("删除成功")
+      const res = await reqDelWork(this.email, this.dateStr);
+      if (res.state == 200) {
+        this.getData();
+        Toast("删除成功");
       }
     },
   },
-  created() {
-  },
+  created() {},
 };
 </script>
 
 <style scoped lang="less">
 .main {
   margin-top: 20px;
+  overflow: auto;
 }
 .table-wrap {
+  border-right: 2px solid #ccc;
   display: table;
-  width: 100%;
+  width: 200%;
   border-collapse: collapse;
   .head-style {
     display: table-header-group;

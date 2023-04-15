@@ -20,7 +20,7 @@
 
       <el-submenu index="1" v-if="isRoot">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="el-icon-user"></i>
           <span slot="title">员工信息</span>
         </template>
         <el-menu-item-group>
@@ -33,7 +33,7 @@
 
       <el-submenu index="2" v-if="isRoot">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="el-icon-setting"></i>
           <span slot="title">排班规则</span>
         </template>
         <el-menu-item-group>
@@ -41,23 +41,25 @@
         </el-menu-item-group>
 
         <el-submenu index="1-4" v-if="isRoot">
-          <template slot="title">商铺规则</template>
+          <template slot="title"
+            ><i class="el-icon-s-tools"></i> <span>商铺规则</span></template
+          >
           <el-menu-item index="/rule/custom">自定义规则</el-menu-item>
           <el-menu-item index="/rule/system">系统规则</el-menu-item>
         </el-submenu>
       </el-submenu>
       <el-submenu index="3" v-if="isRoot">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="el-icon-date"></i>
           <span slot="title">排班信息</span>
         </template>
         <el-menu-item-group>
           <el-menu-item index="/schedule/information">排班信息</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-       <el-submenu index="4" v-if="isRoot">
+      <el-submenu index="4" v-if="isRoot">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="el-icon-star-off"></i>
           <span slot="title">排班模板</span>
         </template>
         <el-menu-item-group>
@@ -69,7 +71,6 @@
 </template>
 
 <script>
-import { reqChangeinfo } from "../../api/employee";
 
 export default {
   data() {
@@ -92,16 +93,11 @@ export default {
       //await关键字，以确保在获取完数据之前不会执行下一步操作
       await this.$store.dispatch("getInfo");
       const position = this.$store.state.user.userInfo;
-     
-
-  
-
 
       if (typeof position === "undefined") {
         this.isRoot = false;
         this.Root = true;
       } else {
-       
         this.isRoot = true;
         this.Root == false;
       }

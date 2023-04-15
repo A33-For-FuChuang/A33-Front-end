@@ -160,7 +160,6 @@ router.beforeEach((to, from, next) => {
   // 获取用户信息
   if (token) {
     store.dispatch("getInfo")
-    
   }
   next();
 });

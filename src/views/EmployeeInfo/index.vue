@@ -31,7 +31,7 @@
     </el-descriptions>
 
     <br />
-    <el-dialog :visible.sync="editDialogVisible" class="dialog2">
+    <el-dialog :close-on-click-modal="false" :visible.sync="editDialogVisible" class="dialog2">
       <el-form :model="form" label-width="100px">
         <el-form-item label="手机号">
           <el-input v-model="form.phone" maxlength="11"></el-input>

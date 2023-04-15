@@ -31,6 +31,8 @@
       :title="title"
       :visible.sync="dialogFormVisible"
       :destroy-on-close="true"
+      width="80%"
+      :close-on-click-modal="false"
     >
       <manageTable
         ref="manageTable"
@@ -40,7 +42,7 @@
       ></manageTable>
     </el-dialog>
 
-    <el-dialog title="进货人员" :visible.sync="dialogTableVisible">
+    <el-dialog title="进货人员" :visible.sync="dialogTableVisible" :close-on-click-modal="false">
       <div class="stock">
         <div class="monday">
           <div>{{ mondayTime }}-周一</div>
@@ -59,7 +61,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="空闲员工" :visible.sync="dialogFreeWorker">
+    <el-dialog title="空闲员工" :visible.sync="dialogFreeWorker" >
       <el-table :data="freeWorkers" border>
         <el-table-column
           property="phone"
@@ -70,6 +72,12 @@
         <el-table-column
           property="name"
           label="姓名"
+          width="200"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          property="dateTime"
+          label="时间"
           width="200"
           align="center"
         ></el-table-column>
@@ -184,8 +192,7 @@ export default {
     }
   },
   created() {
-    // this.getCopyList()
-    this.saveTemplate()
+    
   }
 };
 </script>

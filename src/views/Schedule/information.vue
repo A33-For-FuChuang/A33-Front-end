@@ -20,12 +20,12 @@
       <div><conditionalSearch></conditionalSearch></div>
       <div style="margin-top:20px"><scheduleBtn></scheduleBtn></div>
     </div>
-      <scheduleTable v-permission="['/location/week']"></scheduleTable>
+      <scheduleTable></scheduleTable>
   </div>
 </template>
 
 <script>
-import { reqThreeMonthes,reqTest } from "@/api/location";
+import { reqThreeMonthes } from "@/api/location";
 import scrollTime from "@/components/scrollTime.vue";
 import scheduleTable from "@/components/scheduleTable.vue";
 import conditionalSearch from "@/components/conditionalSearch";

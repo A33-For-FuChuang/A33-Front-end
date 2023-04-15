@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-select
+      v-permission="['/location/group']"
       class="elSelWidth"
       @change="handleChange"
       clearable
@@ -17,6 +18,7 @@
       </el-option>
     </el-select>
     <el-select
+      v-permission="['/location/position']"
       class="elSelWidth"
       style="margin-left: 20px"
       @change="handleChangePosition"
@@ -34,7 +36,12 @@
       </el-option>
     </el-select>
     <el-radio-group @change="handleChangeAll(radio)" v-model="radio">
-      <el-radio style="margin-left: 20px" label="0">查看全部</el-radio>
+      <el-radio
+        style="margin-left: 20px"
+        label="0"
+        v-permission="['/location/week']"
+        >查看全部</el-radio
+      >
       <el-radio :disabled="isDisabled" label="1">查看个人</el-radio>
     </el-radio-group>
   </div>
@@ -70,7 +77,7 @@ export default {
       ],
       position: "",
       positionAll: [],
-      radio: "0",
+      radio: "1",
     };
   },
   methods: {
@@ -117,7 +124,7 @@ export default {
 </script>
 
 <style scoped>
-.elSelWidth{
+.elSelWidth {
   width: 150px;
 }
 </style>
