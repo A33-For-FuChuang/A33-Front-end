@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import {  reqChangeinfo, allemployee } from "../../api/employee";
+import {  reqChangeOther, allemployee } from "../../api/employee";
 import { Toast } from '../../composables/utils';
 
 export default {
@@ -98,7 +98,7 @@ export default {
     },
     async confirmEdit() {
       console.log(this.form);
-      const res=await reqChangeinfo(this.form)
+      const res=await reqChangeOther(this.form)
       if(res.state==200) {
         Toast("修改成功")
         this.handleClose()
