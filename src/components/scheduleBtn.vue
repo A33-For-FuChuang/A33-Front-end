@@ -8,6 +8,9 @@
         v-permission="['/scheduling/IntelligentScheduling']"
         >智能排班</el-button
       >
+      <el-button type="primary" size="medium" @click="getNowDayWork()"
+        >查看当日排班</el-button
+      >
       <el-button
         type="primary"
         size="medium"
@@ -57,9 +60,7 @@
         v-permission="['/location/remove']"
         >删除排班</el-button
       >
-      <el-button type="danger" size="medium" @click="getNowDayWork()"
-        >查看当日排班</el-button
-      >
+      
     </div>
 
     <el-dialog

@@ -49,3 +49,17 @@ export const reqRmove = (id) =>
 export const allemployee = () =>
 request({ url: `/A33/employee/other`, method: "get" });
 
+// 高权限用户(boss)修改员工信息(权限:店长)
+export const reqChangeOtherInfo=(data)=>request({
+  url:"/A33/employee/updateOther",
+  params:{
+    email:data.email,
+    ID:data.id,
+    name:data.name,
+    phone:data.phone,
+    position:data.position
+  },
+  method:"post"
+})
+
+
