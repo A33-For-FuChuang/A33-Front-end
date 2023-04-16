@@ -38,6 +38,14 @@ export const reqChangeinfo = (data) =>
     method: "post",
   });
 
-//所有成员信息接口
+//删除成员
+export const reqRmove = (id) =>
+  request({ url: `/A33/employee/remove`,
+  params: {
+   ID:id
+  }, method: "delete" });
+
+  //所有成员信息接口
 export const allemployee = () =>
-  request({ url: `/A33/employee/other`, method: "get" });
+request({ url: `/A33/employee/other`, method: "get" });
+

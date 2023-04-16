@@ -42,7 +42,7 @@
 
         <el-submenu index="1-4" v-if="isRoot">
           <template slot="title"
-            ><i class="el-icon-s-tools"></i> <span>商铺规则</span></template
+            ><span>商铺规则</span></template
           >
           <el-menu-item index="/rule/custom">自定义规则</el-menu-item>
           <el-menu-item index="/rule/system">系统规则</el-menu-item>
