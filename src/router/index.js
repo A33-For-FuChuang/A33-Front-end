@@ -23,7 +23,7 @@ const routes = [
     children: [
       {
         path: "user",
-        component: () => import("@/views/Home/User.vue"),
+        component: () => import("@/views/Home/user.vue"),
       },
       {
         path: "shop",
@@ -86,32 +86,6 @@ const routes = [
   
     ],
   },
-  // {
-  //   path: "/rule",
-  //   component: () => import("@/layouts/admin.vue"),
-  //   children: [
-  //     {
-  //       path: "employee",
-  //       component: () => import("@/views/EmployeeInfo/index.vue"),
-  //     },
-  //     {
-  //       path: "allemployee",
-  //       component: () => import("@/views/EmployeeInfo/allemployeeinfo.vue"),
-  //     },
-  //     {
-  //       path: "rule",
-  //       component: () => import("@/views/Rule/preference.vue"),
-  //     },
-  //     {
-  //       path: "shoprule",
-  //       component: () => import("@/views/Rule/shoprule.vue"),
-  //     },
-  //     {
-  //       path: "/bussrule",
-  //       component: () => import("@/views/Rule/businessrule.vue"),
-  //     },
-  //   ],
-  // },
   {
     path: "/schedule",
     component: () => import("@/layouts/admin.vue"),

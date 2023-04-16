@@ -10,7 +10,7 @@
       <el-main>
         <FTagList></FTagList>
           <transition name="breadcrumb fade">
-            <keep-alive :max="10">
+            <keep-alive :max="10" exclude="模板展示">
               <router-view style="padding: 20px 50px" class="elmbc">
               </router-view
             ></keep-alive>
