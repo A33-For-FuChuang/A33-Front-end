@@ -20,7 +20,6 @@ export const reqGetWeekWork = (dateTimeWeek) =>
     method: "get",
   });
 
-
 // 按组展示排班(权限:店长、经理、小组长)
 export const reqGetGroupWork = (dateTime, groupID) =>
   request({
@@ -58,9 +57,10 @@ export const reqGetDayLocations = (dateTimeWeek) =>
   });
 
 // 展示所有的空闲员工(权限:店长、经理、小组长)
-export const reqShowFreeWorker = () =>
+export const reqShowFreeWorker = (dateTime) =>
   request({
     url: "/A33/location/showFree",
+    params: { dateTime },
     method: "get",
   });
 
@@ -73,10 +73,10 @@ export const reqGetStock = (localDateTime) =>
   });
 
 // 展示备份数据(权限：店长)
-export const reqShowCopy = (localDateTime) =>
+export const reqShowCopy = (localDateTime, ID) =>
   request({
     url: "/A33/location/showCopy",
-    params: { localDateTime },
+    params: { localDateTime, ID },
     method: "get",
   });
 
@@ -124,5 +124,13 @@ export const reqSearchWork = (dateTime, email) =>
   request({
     url: "/A33/location/selectLocations",
     params: { dateTime, email },
+    method: "get",
+  });
+
+// 按日展示员工的工作安排(权限:店长、经理、小组长)
+export const reqDayWork = (dateTimeDay) =>
+  request({
+    url: "/A33/location/day",
+    params: { dateTimeDay },
     method: "get",
   });

@@ -1,29 +1,64 @@
 <template>
   <div>
     <div>
-      <el-button type="primary" size="medium" @click="getSchedule"
-        v-permission="['/scheduling/IntelligentScheduling']">智能排班</el-button
+      <el-button
+        type="primary"
+        size="medium"
+        @click="getSchedule"
+        v-permission="['/scheduling/IntelligentScheduling']"
+        >智能排班</el-button
       >
-      <el-button type="primary" size="medium" @click="saveTemplate"
-        v-permission="['/template/saveTemplate']">保存模板</el-button
+      <el-button
+        type="primary"
+        size="medium"
+        @click="saveTemplate"
+        v-permission="['/template/saveTemplate']"
+        >保存模板</el-button
       >
-      <el-button type="primary" size="medium" @click="getStock"
-        v-permission="['/location/stock']">查看进货人员</el-button
+      <el-button
+        type="primary"
+        size="medium"
+        @click="getStock"
+        v-permission="['/location/stock']"
+        >查看进货人员</el-button
       >
-      <el-button type="primary" size="medium" @click="getCopyList"
-        v-permission="['/location/showCopy']">查看备份列表</el-button
+      <el-button
+        type="primary"
+        size="medium"
+        @click="getCopyList"
+        v-permission="['/location/showCopy']"
+        >查看备份列表</el-button
       >
-      <el-button type="primary" size="medium" @click="getFreeWorker"
-        v-permission="['/location/showFree']">查看空闲员工</el-button
+      <el-button
+        type="primary"
+        size="medium"
+        @click="getFreeWorker"
+        v-permission="['/location/showFree']"
+        >查看空闲员工</el-button
       >
-      <el-button type="primary" size="medium" @click="handleSchedule('search')"
-        v-permission="['/location/selectLocations']">搜索排班</el-button
+      <el-button
+        type="primary"
+        size="medium"
+        @click="handleSchedule('search')"
+        v-permission="['/location/selectLocations']"
+        >搜索排班</el-button
       >
-      <el-button type="warning" size="medium" @click="handleSchedule('edit')"
-        v-permission="['/location/manage']">安排排班</el-button
+      <el-button
+        type="warning"
+        size="medium"
+        @click="handleSchedule('edit')"
+        v-permission="['/location/manage']"
+        >安排排班</el-button
       >
-      <el-button type="danger" size="medium" @click="handleSchedule('del')"
-        v-permission="['/location/remove']">删除排班</el-button
+      <el-button
+        type="danger"
+        size="medium"
+        @click="handleSchedule('del')"
+        v-permission="['/location/remove']"
+        >删除排班</el-button
+      >
+      <el-button type="danger" size="medium" @click="getNowDayWork()"
+        >查看当日排班</el-button
       >
     </div>
 
@@ -42,7 +77,11 @@
       ></manageTable>
     </el-dialog>
 
-    <el-dialog title="进货人员" :visible.sync="dialogTableVisible" :close-on-click-modal="false">
+    <el-dialog
+      title="进货人员"
+      :visible.sync="dialogTableVisible"
+      :close-on-click-modal="false"
+    >
       <div class="stock">
         <div class="monday">
           <div>{{ mondayTime }}-周一</div>
@@ -61,7 +100,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="空闲员工" :visible.sync="dialogFreeWorker" >
+    <el-dialog title="空闲员工" :visible.sync="dialogFreeWorker">
       <el-table :data="freeWorkers" border>
         <el-table-column
           property="phone"
@@ -75,30 +114,30 @@
           width="200"
           align="center"
         ></el-table-column>
-        <el-table-column
-          property="dateTime"
-          label="时间"
-          width="200"
-          align="center"
-        ></el-table-column>
         <el-table-column property="phone" label="电话"></el-table-column>
       </el-table>
+    </el-dialog>
+
+    <el-dialog title="当天员工排班" :visible.sync="dialogNowWorker">
+      <NowWorkTable :table="nowDayWork"></NowWorkTable>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getWeek, transformTime, removeDuplicate } from "@/composables/utils";
-import { reqGetStock, reqShowFreeWorker,reqShowCopyList } from "@/api/location";
-import {reqSaveTemplate} from "../api/template"
+import { getWeek, transformTime } from "@/composables/utils";
+import { reqGetStock, reqShowFreeWorker, reqDayWork } from "@/api/location";
+import { reqSaveTemplate } from "../api/template";
 import { reqSchedule } from "@/api/scheduling";
 import { getDateKey } from "@/composables/auth";
 import { Toast } from "@/composables/utils";
 import manageTable from "@/components/manageTable";
 import { getMondayAndSunday } from "../composables/utils";
+import NowWorkTable from "./nowWorkTable";
 export default {
   components: {
     manageTable,
+    NowWorkTable,
   },
   data() {
     return {
@@ -118,6 +157,8 @@ export default {
       mondayTime: "",
       formTime: {},
       freeWorkers: [],
+      nowDayWork: [],
+      dialogNowWorker: false,
     };
   },
   methods: {
@@ -145,8 +186,6 @@ export default {
       this.formTime = getMondayAndSunday(date);
     },
     handleSchedule(val) {
-      this.initDates();
-      this.MondayAndSunday();
       if (val == "edit") {
         this.title = "安排排班";
       } else if (val == "del") {
@@ -170,30 +209,39 @@ export default {
     async getFreeWorker() {
       this.dialogFreeWorker = true;
       const date = getDateKey();
-      const res = await reqShowFreeWorker();
+      const res = await reqShowFreeWorker(date);
       if (res.state == 200) {
         this.freeWorkers = res.data;
-        console.log(this.freeWorkers);
       }
+    },
+    async getNowDayWork() {
+      const date = getDateKey();
+      const res = await reqDayWork(date);
+      if (res.state == 200) {
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].length != 0) {
+            this.nowDayWork = res.data[i];
+          }
+        }
+      }
+      this.dialogNowWorker = true;
     },
     async getCopyList() {
-      const date=getDateKey()
-      const res=await reqShowCopyList(date) 
-      if(res.state==200) {
+      this.dialogFormVisible = true;
+      this.title = "查看模板";
+    },
+    async saveTemplate() {
+      const date = getDateKey();
+      const res = await reqSaveTemplate(date);
+      if (res == 200) {
         console.log(res);
       }
     },
-    async saveTemplate() {
-      const date=getDateKey()
-      const res=await reqSaveTemplate(date)
-      if(res==200) {
-        console.log(res);
-      }
-    }
   },
   created() {
-    
-  }
+    this.initDates();
+    this.MondayAndSunday();
+  },
 };
 </script>
 

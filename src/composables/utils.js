@@ -117,3 +117,20 @@ export function getMondayOfWeek(dateString) {
   const dayOfMonth = String(monday.getDate()).padStart(2, '0'); // 获取日期，并补齐为两位数字
   return `${year}-${month}-${dayOfMonth}`; // 拼接为字符串并返回
 }
+
+// 获取当前时间yyyy-mm-dd
+export function getNowFormatDate() {
+  let date = new Date();
+  let seperator1 = "-";
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let strDate = date.getDate();
+  if (month >= 1 && month <= 9) {
+      month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+  }
+  const currentdate = year + seperator1 + month + seperator1 + strDate;
+  return currentdate;
+}

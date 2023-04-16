@@ -2,7 +2,17 @@
   <div>
     <div class="formTime">{{ formTime.monday }}--{{ formTime.sunday }}</div>
     <div>
-      <div style="display: flex">
+      <div v-if="title == '查看模板'" style="display: flex">
+        <el-input
+          placeholder="请输入备份数据序列号"
+          style="width: 250px; margin-right: 20px"
+          v-model="copyId"
+          clearable
+          ><i slot="prefix" class="el-input__icon el-icon-search"></i
+        ></el-input>
+        <el-button type="primary" @click="getData('copy')">搜索</el-button>
+      </div>
+      <div v-else style="display: flex">
         <el-input
           placeholder="请输入邮箱查询员工排班"
           style="width: 250px; margin-right: 20px"
@@ -10,7 +20,7 @@
           clearable
           ><i slot="prefix" class="el-input__icon el-icon-search"></i
         ></el-input>
-        <el-button type="primary" @click="getData">搜索</el-button>
+        <el-button type="primary" @click="getData('search')">搜索</el-button>
       </div>
     </div>
     <div class="main" v-loading="isTableLoad">
@@ -77,8 +87,8 @@ import { getDateKey } from "@/composables/auth";
 import {
   reqManageWork,
   reqDelWork,
-  reqIdWork,
   reqSearchWork,
+  reqShowCopy,
 } from "@/api/location";
 export default {
   props: {
@@ -134,6 +144,7 @@ export default {
       value: "",
       dateStr: "",
       email: "",
+      copyId: "",
     };
   },
   computed: {
@@ -160,12 +171,23 @@ export default {
       }
     },
 
-    async getData() {
+    async getData(val) {
       const date = getMondayOfWeek(getDateKey());
-      const res = await reqSearchWork(date, this.email);
+      let res = await reqSearchWork(date, this.email);
+      if (val == "copy") {
+        res = await this.getCopyWork(date);
+      } else if (val == "search") {
+        res = await this.getSearchWork(date);
+      }
       if (res.state == 200) {
         this.weekWork = res.data;
       }
+    },
+    getSearchWork(date) {
+      return reqSearchWork(date, this.email);
+    },
+    getCopyWork(date) {
+      return reqShowCopy(date, this.copyId);
     },
     async manageWork() {
       const res = await reqManageWork(this.email, this.dateStr);

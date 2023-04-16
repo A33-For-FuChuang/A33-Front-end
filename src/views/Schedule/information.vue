@@ -3,14 +3,6 @@
     <div class="time">
       <div class="left">
         <div style="color: rgb(134, 134, 134)">{{ nowTime }}</div>
-        <div class="isWeek">
-          <el-switch
-            v-model="isWeek"
-            active-text="按周查看"
-            inactive-text="按日查看"
-          >
-          </el-switch>
-        </div>
       </div>
       <div class="right" >
         <scrollTime :times="times"></scrollTime>

@@ -18,11 +18,11 @@
             <dd>{{ week[index] }}</dd>
           </div>
 
-          <dd v-for="(dd, i) in item" :key="dd.locationID">
+          <dd v-for="(dd,i) in item" :key="dd.locationID">
             <el-button
               v-if="dd.length > 1"
               type="primary"
-              @click="getAll(dd, i)"
+              @click="getAll(dd, index,i)"
               >查看所有</el-button
             >
             <div v-else>
@@ -33,7 +33,7 @@
         </dl>
       </div>
     </div>
-    <el-dialog :close-on-click-modal="false" :title="clickDate" :visible.sync="dialogVisible" width="25%">
+    <el-dialog :destroy-on-close="true" :close-on-click-modal="false" :title="clickDate" :visible.sync="dialogVisible" width="25%">
       <span>
         <el-table :data="tableData" height="450" border>
           <el-table-column
@@ -144,9 +144,9 @@ export default {
       const formattedDate = transformTime(date);
       this.dates = getWeek(formattedDate);
     },
-    getAll(data, index) {
+    getAll(data, index,j) {
       this.clickDate =
-        this.dates[index] + "-" + this.week[index] + "-" + this.time[index];
+        this.dates[index] + "-" + this.week[index] + "-" + this.time[j];
       this.tableData = data;
       this.dialogVisible = true;
     },
