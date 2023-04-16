@@ -36,4 +36,13 @@ export const reqSaveTemplate=(name)=>request({
     params:{name},
     method:"get"
 })
-  
+
+// 启用模板
+export const requseTemplate=(data)=>request({
+  url:"/A33/template/useTemplate",
+  params:{
+    dateTime:data.dayTime,
+    name:data.name
+  },
+  method:"get"
+})

@@ -38,18 +38,14 @@ export const reqChangeinfo = (data) =>
     method: "post",
   });
 
-// 高权限用户(boss)修改员工信息(权限:店长)
-export const reqChangeOther=(data)=>
-request({
-  url: `/A33/employee/updateOther`,
+//删除成员
+export const reqRmove = (id) =>
+  request({ url: `/A33/employee/remove`,
   params: {
-    email: data.email,
-    phone: data.phone,
-  },
-  method: "post",
-});
-  
+   ID:id
+  }, method: "delete" });
 
-//所有成员信息接口
+  //所有成员信息接口
 export const allemployee = () =>
-  request({ url: `/A33/employee/other`, method: "get" });
+request({ url: `/A33/employee/other`, method: "get" });
+
