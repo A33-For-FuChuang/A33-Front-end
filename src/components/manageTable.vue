@@ -64,6 +64,18 @@
                   <el-tag type="success">未排班</el-tag>
                 </div>
               </div>
+              <div v-else-if="title == '查看备份'">
+                <el-button
+                  v-if="dd.length > 1"
+                  type="primary"
+                  @click="getAll(dd, y, x)"
+                  >查看所有</el-button
+                >
+                <div v-else>
+                  <span>{{ dd[0]?.name }}</span>
+                  <div>{{ dd[0]?.position }}</div>
+                </div>
+              </div>
               <div v-else-if="title == '搜索排班'">
                 <span>{{ dd[0]?.name }}</span>
                 <div>{{ dd[0]?.position }}</div>
@@ -73,6 +85,26 @@
         </div>
       </div>
     </div>
+    <el-dialog append-to-body :destroy-on-close="true" :close-on-click-modal="false"  :visible.sync="dialogVisible" width="25%">
+      <span>
+        <el-table :data="tableData" height="450" border>
+          <el-table-column
+            prop="position"
+            label="职位"
+            width="160"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column prop="name" label="姓名" align="center">
+          </el-table-column>
+        </el-table>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false" type="primary"
+          >关 闭</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -150,6 +182,9 @@ export default {
       copyId: "",
       options: [],
       value: "",
+      clickDate: "",
+      dialogVisible:false,
+      dates:[]
     };
   },
   computed: {
@@ -161,6 +196,15 @@ export default {
     },
   },
   methods: {
+    getAll(data, index,j) {
+      // const date = getDateKey()
+      // const formattedDate = transformTime(date);
+      // this.dates = getWeek(formattedDate);
+      // this.clickDate =
+      //   this.dates[index] + "-" + this.week[index] + "-" + this.time[j];
+      this.tableData = data;
+      this.dialogVisible = true;
+    },
     manage(x, y) {
       let dateStr = "";
       dateStr += getDateKey().substring(0, 4);
@@ -191,7 +235,7 @@ export default {
     getSearchWork(date) {
       return reqSearchWork(date, this.email);
     },
-    getCopyWork(date) {
+    async getCopyWork(date) {
       return reqShowCopy(date, this.copyId);
     },
     async manageWork() {
