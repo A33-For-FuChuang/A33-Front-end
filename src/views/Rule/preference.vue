@@ -1,5 +1,5 @@
 <template>
-  <div class="preference-container" v-if="showpreference">
+  <div class="preference-container" >
     <h2 class="preference-title" >员工偏好展示页面</h2>
       
 
@@ -131,7 +131,6 @@
    
        
   </div>
-   <div v-else class="empty"><el-empty description="暂时没有权限查看该页面"></el-empty></div>
 </template>
 <script>
 import { employeeinfo } from "../../api/employee";
@@ -152,27 +151,16 @@ export default {
       newWorktimePreference: "",
       newWorkhourPreference: "",
       newWorktimeDay: "",
-      showpreference:true,
+    
     };
   },
   created() {
-      this.personalinfo();
+      
     this.showpre();
   },
 
   methods: {
-    async personalinfo() {
-      const res = await employeeinfo();
-      this.form = res.data;
-      if (this.form.position != "店长" && this.form.position != "经理") {
-        this.showpreference = true;
-        console.log("我不是店长");
-        return this.showpreference;
-      } else {
-        this.showpreference = false;
-        return this.showpreference;
-      }
-    },
+   
     async showpre() {
       const res = await reqShowEmployeeRole();
       console.log(res.data);

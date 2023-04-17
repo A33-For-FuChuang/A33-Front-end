@@ -2,19 +2,7 @@
   <div>
     <h2>员工信息</h2>
     <el-table :data="table" v-if="table.length > 0">
-      <!-- <el-table-column prop="name" label="姓名">
-        <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>{{ scope.row.hobbyType1 }}:</p>
-            <p>{{ scope.row.hobbyType2 }}:</p>
-            <p>{{ scope.row.hobbyType3 }}:</p>
 
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column> -->
             <el-table-column prop="name" label="姓名"></el-table-column>
 
       <el-table-column prop="position" label="职位"></el-table-column>
@@ -26,13 +14,13 @@
       <el-table-column prop="groupName" label="组名"></el-table-column>
       <el-table-column label="操作" v-if="showOperation">
         <template slot-scope="scope" >
-          <el-button type="primary" @click="editRule(scope.row)"  style="width:40px" class="but"
+          <el-button type="primary" @click="editRule(scope.row)"  style="width:35px" class="but"
             >编辑</el-button
           >
-             <el-button type="primary" @click="searchMore(scope.row)"  style="width:40px" class="but"
+             <el-button type="primary" @click="searchMore(scope.row)"  style="width:35px" class="but"
             >更多</el-button
           >
-            <el-button type="danger" @click="deleteMore(scope.row)"  style="width:40px" class="but"
+            <el-button type="danger" @click="deleteMore(scope.row)"  style="width:35px" class="but"
             >删除</el-button
           >
          
@@ -273,4 +261,5 @@ export default {
 .but{
  padding: 5px;
 }
+
 </style>

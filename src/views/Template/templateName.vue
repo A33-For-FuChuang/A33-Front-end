@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { reqUpdateFlow } from '../../api/flow';
 import {
   reqStartTemplate,
   reqShowEvaluate,
@@ -123,9 +124,12 @@ export default {
         template.evaluateNumer = res2.data;
       }
     },
-    useTemplate(template) {
+    async useTemplate(template) {
       console.log("这是启用template", template);
       this.form.name = template.name;
+      this.dialogFormVisible=true
+
+  
     },
     async confirmEdit() {
       console.log("这也是", this.form);

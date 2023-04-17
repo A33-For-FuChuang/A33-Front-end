@@ -70,6 +70,19 @@ const routes = [
     ],
   },
   {
+    path: "/flow",
+    component: () => import("@/layouts/admin.vue"),
+    children: [
+      {
+        path: "show",
+        name: '人流量展示',
+        component: () => import("@/views/ShowFlow/showFlow.vue"),
+      },
+   
+  
+    ],
+  },
+  {
     path: "/template",
     component: () => import("@/layouts/admin.vue"),
     children: [

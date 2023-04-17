@@ -48,6 +48,15 @@
           <el-menu-item index="/rule/system">系统规则</el-menu-item>
         </el-submenu>
       </el-submenu>
+           <el-submenu index="4" v-if="isRoot">
+        <template slot="title">
+          <i class="el-icon-bell"></i>
+          <span slot="title">人流量</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/flow/show">展示人流量</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
       <el-submenu index="3" v-if="isRoot">
         <template slot="title">
           <i class="el-icon-date"></i>
@@ -57,7 +66,7 @@
           <el-menu-item index="/schedule/information">排班信息</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="4" v-if="isRoot">
+      <el-submenu index="5" v-if="isRoot">
         <template slot="title">
           <i class="el-icon-star-off"></i>
           <span slot="title">排班模板</span>
