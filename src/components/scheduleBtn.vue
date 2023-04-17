@@ -35,6 +35,13 @@
       <el-button
         type="primary"
         size="medium"
+        @click="startCopy"
+        v-permission="['/location/showCopy']"
+        >启用备份</el-button
+      >
+      <el-button
+        type="primary"
+        size="medium"
         @click="getFreeWorker"
         v-permission="['/location/showFree']"
         >查看空闲员工</el-button
@@ -247,6 +254,13 @@ export default {
       this.formTime = getMondayAndSunday(date);
       this.dialogFormVisible = true;
       this.title = "查看备份";
+    },
+    async startCopy() {
+      this.initDates()
+      let date = getDateKey();
+      this.formTime = getMondayAndSunday(date);
+      this.dialogFormVisible = true;
+      this.title = "启用备份";
     },
     async saveTemplate() {
       const date = getDateKey();

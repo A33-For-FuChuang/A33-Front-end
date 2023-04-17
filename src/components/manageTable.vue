@@ -14,6 +14,18 @@
         </el-select>
         <el-button type="primary" @click="getData('copy')">搜索</el-button>
       </div>
+      <div v-else-if="title == '启用备份'" style="display: flex">
+        <el-select v-model="copyId" placeholder="请选择恢复备份序列号">
+          <el-option
+            v-for="item in options"
+            :key="item"
+            :label="item"
+            :value="item"
+          >
+          </el-option>
+        </el-select>
+        <el-button type="primary" @click="getData('startCopy')">搜索</el-button>
+      </div>
       <div v-else style="display: flex">
         <el-input
           placeholder="请输入邮箱查询员工排班"
@@ -85,7 +97,13 @@
         </div>
       </div>
     </div>
-    <el-dialog append-to-body :destroy-on-close="true" :close-on-click-modal="false"  :visible.sync="dialogVisible" width="25%">
+    <el-dialog
+      append-to-body
+      :destroy-on-close="true"
+      :close-on-click-modal="false"
+      :visible.sync="dialogVisible"
+      width="25%"
+    >
       <span>
         <el-table :data="tableData" height="450" border>
           <el-table-column
@@ -124,6 +142,7 @@ import {
   reqSearchWork,
   reqShowCopy,
   reqShowCopyList,
+  reqRestoreCopy,
 } from "@/api/location";
 export default {
   props: {
@@ -183,8 +202,7 @@ export default {
       options: [],
       value: "",
       clickDate: "",
-      dialogVisible:false,
-      dates:[]
+      dialogVisible: false,
     };
   },
   computed: {
@@ -196,7 +214,7 @@ export default {
     },
   },
   methods: {
-    getAll(data, index,j) {
+    getAll(data, index, j) {
       // const date = getDateKey()
       // const formattedDate = transformTime(date);
       // this.dates = getWeek(formattedDate);
@@ -227,6 +245,8 @@ export default {
         res = await this.getCopyWork(date);
       } else if (val == "search") {
         res = await this.getSearchWork(date);
+      } else if (val == "startCopy") {
+        res = await this.startCopyData(date);
       }
       if (res.state == 200) {
         this.weekWork = res.data;
@@ -235,8 +255,14 @@ export default {
     getSearchWork(date) {
       return reqSearchWork(date, this.email);
     },
-    async getCopyWork(date) {
+    getCopyWork(date) {
       return reqShowCopy(date, this.copyId);
+    },
+    async startCopyData(date) {
+      const res = await reqRestoreCopy(date, this.copyId);
+      if (res.state == 200) {
+        Toast("恢复成功");
+      }
     },
     async manageWork() {
       const res = await reqManageWork(this.email, this.dateStr);

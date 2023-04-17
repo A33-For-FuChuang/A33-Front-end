@@ -81,9 +81,10 @@ export const reqShowCopy = (dateTime, ID) =>
   });
 
 // 恢复备份数据(权限：店长)
-export const reqRestoreCopy = () =>
+export const reqRestoreCopy = (dateTime,ID) =>
   request({
     url: "/A33/location/restoreCopy",
+    params:{dateTime,ID},
     method: "get",
   });
 
