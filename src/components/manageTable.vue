@@ -2,14 +2,16 @@
   <div>
     <div class="formTime">{{ formTime.monday }}--{{ formTime.sunday }}</div>
     <div>
-      <div v-if="title == '查看模板'" style="display: flex">
-        <el-input
-          placeholder="请输入备份数据序列号"
-          style="width: 250px; margin-right: 20px"
-          v-model="copyId"
-          clearable
-          ><i slot="prefix" class="el-input__icon el-icon-search"></i
-        ></el-input>
+      <div v-if="title == '查看备份'" style="display: flex">
+        <el-select v-model="copyId" placeholder="请选择备份序列号">
+          <el-option
+            v-for="item in options"
+            :key="item"
+            :label="item"
+            :value="item"
+          >
+          </el-option>
+        </el-select>
         <el-button type="primary" @click="getData('copy')">搜索</el-button>
       </div>
       <div v-else style="display: flex">
@@ -62,6 +64,18 @@
                   <el-tag type="success">未排班</el-tag>
                 </div>
               </div>
+              <div v-else-if="title == '查看备份'">
+                <el-button
+                  v-if="dd.length > 1"
+                  type="primary"
+                  @click="getAll(dd, y, x)"
+                  >查看所有</el-button
+                >
+                <div v-else>
+                  <span>{{ dd[0]?.name }}</span>
+                  <div>{{ dd[0]?.position }}</div>
+                </div>
+              </div>
               <div v-else-if="title == '搜索排班'">
                 <span>{{ dd[0]?.name }}</span>
                 <div>{{ dd[0]?.position }}</div>
@@ -71,6 +85,26 @@
         </div>
       </div>
     </div>
+    <el-dialog append-to-body :destroy-on-close="true" :close-on-click-modal="false"  :visible.sync="dialogVisible" width="25%">
+      <span>
+        <el-table :data="tableData" height="450" border>
+          <el-table-column
+            prop="position"
+            label="职位"
+            width="160"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column prop="name" label="姓名" align="center">
+          </el-table-column>
+        </el-table>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false" type="primary"
+          >关 闭</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -89,6 +123,7 @@ import {
   reqDelWork,
   reqSearchWork,
   reqShowCopy,
+  reqShowCopyList,
 } from "@/api/location";
 export default {
   props: {
@@ -145,6 +180,11 @@ export default {
       dateStr: "",
       email: "",
       copyId: "",
+      options: [],
+      value: "",
+      clickDate: "",
+      dialogVisible:false,
+      dates:[]
     };
   },
   computed: {
@@ -156,6 +196,15 @@ export default {
     },
   },
   methods: {
+    getAll(data, index,j) {
+      // const date = getDateKey()
+      // const formattedDate = transformTime(date);
+      // this.dates = getWeek(formattedDate);
+      // this.clickDate =
+      //   this.dates[index] + "-" + this.week[index] + "-" + this.time[j];
+      this.tableData = data;
+      this.dialogVisible = true;
+    },
     manage(x, y) {
       let dateStr = "";
       dateStr += getDateKey().substring(0, 4);
@@ -186,7 +235,7 @@ export default {
     getSearchWork(date) {
       return reqSearchWork(date, this.email);
     },
-    getCopyWork(date) {
+    async getCopyWork(date) {
       return reqShowCopy(date, this.copyId);
     },
     async manageWork() {
@@ -203,8 +252,17 @@ export default {
         Toast("删除成功");
       }
     },
+    async getCopyList() {
+      const date = getDateKey();
+      const res = await reqShowCopyList(date);
+      if (res.state == 200) {
+        this.options = res.data;
+      }
+    },
   },
-  created() {},
+  created() {
+    this.getCopyList();
+  },
 };
 </script>
 

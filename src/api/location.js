@@ -73,10 +73,10 @@ export const reqGetStock = (localDateTime) =>
   });
 
 // 展示备份数据(权限：店长)
-export const reqShowCopy = (localDateTime, ID) =>
+export const reqShowCopy = (dateTime, ID) =>
   request({
     url: "/A33/location/showCopy",
-    params: { localDateTime, ID },
+    params: { dateTime, ID },
     method: "get",
   });
 
@@ -88,10 +88,10 @@ export const reqRestoreCopy = () =>
   });
 
 // 展示备份数据列表(权限：店长)
-export const reqShowCopyList = (dateTime) =>
+export const reqShowCopyList = (dateTime,ID) =>
   request({
     url: "/A33/location/showCopyList",
-    params: { dateTime },
+    params: { dateTime ,ID},
     method: "get",
   });
 

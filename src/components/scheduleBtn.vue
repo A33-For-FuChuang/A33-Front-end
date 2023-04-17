@@ -8,6 +8,9 @@
         v-permission="['/scheduling/IntelligentScheduling']"
         >智能排班</el-button
       >
+      <el-button type="primary" size="medium" @click="getNowDayWork()"
+        >查看当日排班</el-button
+      >
       <el-button
         type="primary"
         size="medium"
@@ -57,9 +60,7 @@
         v-permission="['/location/remove']"
         >删除排班</el-button
       >
-      <el-button type="danger" size="medium" @click="getNowDayWork()"
-        >查看当日排班</el-button
-      >
+      
     </div>
 
     <el-dialog
@@ -101,10 +102,17 @@
     </el-dialog>
 
     <el-dialog title="空闲员工" :visible.sync="dialogFreeWorker">
+      <div>{{freeMondayAndSunday.monday}}-{{freeMondayAndSunday.sunday}}</div>
       <el-table :data="freeWorkers" border>
         <el-table-column
-          property="phone"
+          property="position"
           label="职位"
+          width="150"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          property="phone"
+          label="电话号码"
           width="150"
           align="center"
         ></el-table-column>
@@ -159,6 +167,8 @@ export default {
       freeWorkers: [],
       nowDayWork: [],
       dialogNowWorker: false,
+      freeTime:"",
+      freeMondayAndSunday:{}
     };
   },
   methods: {
@@ -186,6 +196,9 @@ export default {
       this.formTime = getMondayAndSunday(date);
     },
     handleSchedule(val) {
+      
+      let date = getDateKey();
+      this.formTime = getMondayAndSunday(date);
       if (val == "edit") {
         this.title = "安排排班";
       } else if (val == "del") {
@@ -207,8 +220,10 @@ export default {
       }
     },
     async getFreeWorker() {
-      this.dialogFreeWorker = true;
-      const date = getDateKey();
+      const date=getDateKey()
+      this.freeMondayAndSunday=getMondayAndSunday(date)
+      this.dialogFreeWorker=true
+      
       const res = await reqShowFreeWorker(date);
       if (res.state == 200) {
         this.freeWorkers = res.data;
@@ -227,8 +242,11 @@ export default {
       this.dialogNowWorker = true;
     },
     async getCopyList() {
+      this.initDates()
+      let date = getDateKey();
+      this.formTime = getMondayAndSunday(date);
       this.dialogFormVisible = true;
-      this.title = "查看模板";
+      this.title = "查看备份";
     },
     async saveTemplate() {
       const date = getDateKey();

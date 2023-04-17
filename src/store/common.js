@@ -6,7 +6,7 @@ const state = {
     },
   ],
   asideWidth: "250px",
-  isPublic:true,
+  isPublic:false,
   weekWork:[],
   isTableLoad:false,
   dates:[]
