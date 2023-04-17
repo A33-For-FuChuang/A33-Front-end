@@ -35,7 +35,7 @@
       <el-button
         type="primary"
         size="medium"
-        @click="dialogFreeWorker=true"
+        @click="getFreeWorker"
         v-permission="['/location/showFree']"
         >查看空闲员工</el-button
       >
@@ -102,14 +102,7 @@
     </el-dialog>
 
     <el-dialog title="空闲员工" :visible.sync="dialogFreeWorker">
-      <el-input
-          placeholder="日期查询 yyyy-mm-dd"
-          style="width: 250px; margin-right: 20px"
-          v-model="freeTime"
-          clearable
-          ><i slot="prefix" class="el-input__icon el-icon-search"></i
-        ></el-input>
-        <el-button type="primary" @click="getFreeWorker">搜索</el-button>
+      <div>{{freeMondayAndSunday.monday}}-{{freeMondayAndSunday.sunday}}</div>
       <el-table :data="freeWorkers" border>
         <el-table-column
           property="position"
@@ -174,7 +167,8 @@ export default {
       freeWorkers: [],
       nowDayWork: [],
       dialogNowWorker: false,
-      freeTime:""
+      freeTime:"",
+      freeMondayAndSunday:{}
     };
   },
   methods: {
@@ -202,6 +196,9 @@ export default {
       this.formTime = getMondayAndSunday(date);
     },
     handleSchedule(val) {
+      
+      let date = getDateKey();
+      this.formTime = getMondayAndSunday(date);
       if (val == "edit") {
         this.title = "安排排班";
       } else if (val == "del") {
@@ -223,8 +220,11 @@ export default {
       }
     },
     async getFreeWorker() {
-      this.dialogFreeWorker = true;
-      const res = await reqShowFreeWorker(this.freeTime);
+      const date=getDateKey()
+      this.freeMondayAndSunday=getMondayAndSunday(date)
+      this.dialogFreeWorker=true
+      
+      const res = await reqShowFreeWorker(date);
       if (res.state == 200) {
         this.freeWorkers = res.data;
       }
@@ -242,6 +242,9 @@ export default {
       this.dialogNowWorker = true;
     },
     async getCopyList() {
+      this.initDates()
+      let date = getDateKey();
+      this.formTime = getMondayAndSunday(date);
       this.dialogFormVisible = true;
       this.title = "查看备份";
     },

@@ -3,13 +3,15 @@
     <div class="formTime">{{ formTime.monday }}--{{ formTime.sunday }}</div>
     <div>
       <div v-if="title == '查看备份'" style="display: flex">
-        <el-input
-          placeholder="请输入备份数据序列号"
-          style="width: 250px; margin-right: 20px"
-          v-model="copyId"
-          clearable
-          ><i slot="prefix" class="el-input__icon el-icon-search"></i
-        ></el-input>
+        <el-select v-model="copyId" placeholder="请选择备份序列号">
+          <el-option
+            v-for="item in options"
+            :key="item"
+            :label="item"
+            :value="item"
+          >
+          </el-option>
+        </el-select>
         <el-button type="primary" @click="getData('copy')">搜索</el-button>
       </div>
       <div v-else style="display: flex">
@@ -89,7 +91,7 @@ import {
   reqDelWork,
   reqSearchWork,
   reqShowCopy,
-  reqShowCopyList
+  reqShowCopyList,
 } from "@/api/location";
 export default {
   props: {
@@ -146,6 +148,8 @@ export default {
       dateStr: "",
       email: "",
       copyId: "",
+      options: [],
+      value: "",
     };
   },
   computed: {
@@ -205,13 +209,15 @@ export default {
       }
     },
     async getCopyList() {
-      const date=getDateKey()
-      const res=await reqShowCopyList(date)
-      console.log(res,1);
+      const date = getDateKey();
+      const res = await reqShowCopyList(date);
+      if (res.state == 200) {
+        this.options = res.data;
+      }
     },
   },
   created() {
-    this.getCopyList()
+    this.getCopyList();
   },
 };
 </script>
