@@ -2,7 +2,7 @@
   <div>
     <div class="formTime">{{ formTime.monday }}--{{ formTime.sunday }}</div>
     <div>
-      <div v-if="title == '查看模板'" style="display: flex">
+      <div v-if="title == '查看备份'" style="display: flex">
         <el-input
           placeholder="请输入备份数据序列号"
           style="width: 250px; margin-right: 20px"
@@ -89,6 +89,7 @@ import {
   reqDelWork,
   reqSearchWork,
   reqShowCopy,
+  reqShowCopyList
 } from "@/api/location";
 export default {
   props: {
@@ -203,8 +204,15 @@ export default {
         Toast("删除成功");
       }
     },
+    async getCopyList() {
+      const date=getDateKey()
+      const res=await reqShowCopyList(date)
+      console.log(res,1);
+    },
   },
-  created() {},
+  created() {
+    this.getCopyList()
+  },
 };
 </script>
 

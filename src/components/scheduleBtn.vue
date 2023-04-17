@@ -35,7 +35,7 @@
       <el-button
         type="primary"
         size="medium"
-        @click="getFreeWorker"
+        @click="dialogFreeWorker=true"
         v-permission="['/location/showFree']"
         >查看空闲员工</el-button
       >
@@ -102,10 +102,24 @@
     </el-dialog>
 
     <el-dialog title="空闲员工" :visible.sync="dialogFreeWorker">
+      <el-input
+          placeholder="日期查询 yyyy-mm-dd"
+          style="width: 250px; margin-right: 20px"
+          v-model="freeTime"
+          clearable
+          ><i slot="prefix" class="el-input__icon el-icon-search"></i
+        ></el-input>
+        <el-button type="primary" @click="getFreeWorker">搜索</el-button>
       <el-table :data="freeWorkers" border>
         <el-table-column
-          property="phone"
+          property="position"
           label="职位"
+          width="150"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          property="phone"
+          label="电话号码"
           width="150"
           align="center"
         ></el-table-column>
@@ -160,6 +174,7 @@ export default {
       freeWorkers: [],
       nowDayWork: [],
       dialogNowWorker: false,
+      freeTime:""
     };
   },
   methods: {
@@ -209,8 +224,7 @@ export default {
     },
     async getFreeWorker() {
       this.dialogFreeWorker = true;
-      const date = getDateKey();
-      const res = await reqShowFreeWorker(date);
+      const res = await reqShowFreeWorker(this.freeTime);
       if (res.state == 200) {
         this.freeWorkers = res.data;
       }
@@ -229,7 +243,7 @@ export default {
     },
     async getCopyList() {
       this.dialogFormVisible = true;
-      this.title = "查看模板";
+      this.title = "查看备份";
     },
     async saveTemplate() {
       const date = getDateKey();
